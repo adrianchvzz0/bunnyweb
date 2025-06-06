@@ -1,0 +1,42 @@
+---
+import Logo from "../components/icons/Logo.astro";
+---
+
+<nav
+    class="fixed top-0 left-28 right-28 z-50 flex justify-between items-center w-6xl py-2 border border-[#64656C] backdrop-blur-sm rounded-3xl mx-8 mt-6"
+>
+    <div class="flex items-center justify-center mx-10">
+        <Logo
+            alt="Logo"
+            class="w-40 h-12 hover:scale-105 transition-all duration-300"
+            href="#hero"
+        />
+    </div>
+    <div class="flex items-center text-lg text-[#D0D0D4] gap-6 mx-10">
+        <a
+            href="#hero"
+            class="mr-4 hover:text-[#00FFC4] transition-all duration-300 hover:scale-105"
+            >Inicio</a
+        >
+        <a
+            href="#services"
+            class="mr-4 hover:text-[#00FFC4] transition-all duration-300 hover:scale-105"
+            >Servicios</a
+        >
+        <a
+            href="#plans"
+            class="mr-4 hover:text-[#00FFC4] transition-all duration-300 hover:scale-105"
+            >Planes</a
+        >
+        <a
+            href="#about"
+            class="mr-4 hover:text-[#00FFC4] transition-all duration-300 hover:scale-105"
+            >Sobre Nosotros</a
+        >
+        <a
+            href="#contact"
+            class="mr-4 hover:text-[#00FFC4] transition-all duration-300 hover:scale-105"
+            >Contacto</a
+        >
+    </div>
+</nav>

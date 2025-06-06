@@ -1,22 +1,42 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+// Supports weights 100-900
+import "@fontsource-variable/onest";
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+		<title>BunnyWeb | Web Development</title>
+
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content="BunnyWeb - Desarrollo y diseño web" />
+		<meta
+			name="keywords"
+			content="BunnyWeb, Web Development, Web Design, Web Development Company"
+		/>
 	</head>
 	<body>
-		<slot />
+		<Header />
+		<main>
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
 
 <style>
-	html,
+	html {
+		font-family: "Onest Variable", sans-serif;
+		scroll-behavior: smooth;
+	}
 	body {
 		margin: 0;
 		width: 100%;
 		height: 100%;
+		background-color: #0d0f19;
 	}
 </style>

@@ -1,0 +1,262 @@
+---
+// Estado inicial
+let planType = "landing";
+
+// Función para actualizar la visibilidad de los planes
+const updatePlanVisibility = () => {
+    const landingPlans = document.getElementById("landing-plans");
+    const ecommercePlans = document.getElementById("ecommerce-plans");
+    const landingLabel = document.querySelector(
+        '.plan-label[data-plan="landing"]',
+    );
+    const ecommerceLabel = document.querySelector(
+        '.plan-label[data-plan="ecommerce"]',
+    );
+    const toggleButton = document.querySelector(".toggle-button");
+
+    if (planType === "landing") {
+        if (landingPlans) landingPlans.classList.remove("hidden");
+        if (ecommercePlans) ecommercePlans.classList.add("hidden");
+        if (landingLabel) {
+            landingLabel.classList.add("text-[#00FFC4]");
+            landingLabel.classList.remove("text-[#D0D0D4]");
+        }
+        if (ecommerceLabel) {
+            ecommerceLabel.classList.remove("text-[#00FFC4]");
+            ecommerceLabel.classList.add("text-[#D0D0D4]");
+        }
+        if (toggleButton) toggleButton.classList.remove("translate-x-7");
+    } else {
+        if (landingPlans) landingPlans.classList.add("hidden");
+        if (ecommercePlans) ecommercePlans.classList.remove("hidden");
+        if (landingLabel) {
+            landingLabel.classList.remove("text-[#00FFC4]");
+            landingLabel.classList.add("text-[#D0D0D4]");
+        }
+        if (ecommerceLabel) {
+            ecommerceLabel.classList.add("text-[#00FFC4]");
+            ecommerceLabel.classList.remove("text-[#D0D0D4]");
+        }
+        if (toggleButton) toggleButton.classList.add("translate-x-7");
+    }
+};
+
+// Inicializar visibilidad al cargar
+if (typeof document !== "undefined") {
+    document.addEventListener("astro:page-load", updatePlanVisibility);
+    document.addEventListener("DOMContentLoaded", updatePlanVisibility);
+}
+---
+
+<script is:inline>
+    // Declaramos planType como propiedad del window para que sea global
+    window.planType = "landing";
+
+    window.togglePlanType = () => {
+        window.planType =
+            window.planType === "landing" ? "ecommerce" : "landing";
+        window.updatePlanVisibility();
+    };
+
+    window.updatePlanVisibility = () => {
+        const landingPlans = document.getElementById("landing-plans");
+        const ecommercePlans = document.getElementById("ecommerce-plans");
+        const landingLabel = document.querySelector(
+            '.plan-label[data-plan="landing"]',
+        );
+        const ecommerceLabel = document.querySelector(
+            '.plan-label[data-plan="ecommerce"]',
+        );
+        const toggleButton = document.querySelector(".toggle-button");
+
+        if (window.planType === "landing") {
+            landingPlans?.classList.remove("hidden");
+            ecommercePlans?.classList.add("hidden");
+
+            landingLabel?.classList.add("text-[#00FFC4]");
+            landingLabel?.classList.remove("text-[#D0D0D4]");
+
+            ecommerceLabel?.classList.remove("text-[#00FFC4]");
+            ecommerceLabel?.classList.add("text-[#D0D0D4]");
+
+            toggleButton?.classList.remove("translate-x-7");
+        } else {
+            landingPlans?.classList.add("hidden");
+            ecommercePlans?.classList.remove("hidden");
+
+            landingLabel?.classList.remove("text-[#00FFC4]");
+            landingLabel?.classList.add("text-[#D0D0D4]");
+
+            ecommerceLabel?.classList.add("text-[#00FFC4]");
+            ecommerceLabel?.classList.remove("text-[#D0D0D4]");
+
+            toggleButton?.classList.add("translate-x-7");
+        }
+    };
+
+    // Ejecutar al cargar
+    document.addEventListener("astro:page-load", window.updatePlanVisibility);
+    document.addEventListener("DOMContentLoaded", window.updatePlanVisibility);
+</script>
+
+<div id="plans" class="w-full max-w-5xl mx-auto px-4 py-30">
+    <h2 class="text-5xl font-semibold text-white py-4">Planes</h2>
+    <p class="text-2xl text-[#D0D0D4] mb-10">
+        Tenemos el plan <span class="font-regular text-[#00FFC4]">perfecto</span
+        > para tí.
+        <br class="md:hidden" />
+        Todos los planes incluyen personalización y cotización gratuita.
+    </p>
+
+    <div class="flex justify-center mb-16">
+        <div class="relative inline-flex items-center">
+            <span
+                class="plan-label mr-3 text-lg font-medium text-[#00FFC4] cursor-pointer"
+                data-plan="landing"
+                onclick="window.togglePlanType()"
+            >
+                Landing Page
+            </span>
+            <div class="relative inline-block w-14 h-7">
+                <button
+                    type="button"
+                    onclick="window.togglePlanType()"
+                    class="absolute w-full h-full bg-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00FFC4]"
+                    role="switch"
+                    aria-checked="false"
+                >
+                    <span
+                        class="toggle-button absolute left-1 top-1 w-5 h-5 bg-[#00FFC4] rounded-full shadow-md transition-transform duration-200 ease-in-out"
+                    ></span>
+                </button>
+            </div>
+            <span
+                class="plan-label ml-3 text-lg font-medium text-[#D0D0D4] cursor-pointer"
+                data-plan="ecommerce"
+                onclick="window.togglePlanType()"
+            >
+                E-commerce
+            </span>
+        </div>
+    </div>
+
+    <!-- Landing Plans -->
+    <div id="landing-plans" class="w-full max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
+            <!-- Tarjeta Básica -->
+            <div class="h-full">
+                <div class="h-full flex flex-col items-center border border-[#64656C] rounded-3xl p-8 hover:border-[#00FFC4] transition-all duration-300 hover:scale-[1.02]">
+                    <h3 class="text-2xl font-semibold text-white mb-4">
+                        Landing Básica
+                    </h3>
+                    <p class="text-[#00FFC4] text-4xl font-bold mb-6">
+                        $2,999<span class="text-xl">/pago único</span>
+                    </p>
+                    <button
+                        class="bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
+                    >
+                        Elegir Plan
+                    </button>
+                    <ul class="space-y-3 text-[#D0D0D4] mb-8">
+                        <li class="flex items-center">✓ Hasta 5 secciones</li>
+                        <li class="flex items-center">✓ Diseño personalizado</li>
+                        <li class="flex items-center">✓ Optimización móvil</li>
+                        <li class="flex items-center">✓ Formulario de contacto</li>
+                        <li class="flex items-center">✓ SEO básico</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tarjeta Premium -->
+            <div class="h-full">
+                <div class="h-full flex flex-col items-center border-2 border-[#00FFC4] rounded-3xl p-8 relative transform scale-[1.02]">
+                    <span
+                        class="absolute -top-4 bg-[#00FFC4] text-gray-900 text-sm font-bold px-4 py-1 rounded-full"
+                    >
+                        MÁS POPULAR
+                    </span>
+                    <h3 class="text-2xl font-semibold text-white mb-4">
+                        Landing Premium
+                    </h3>
+                    <p class="text-[#00FFC4] text-4xl font-bold mb-6">
+                        $6,000<span class="text-xl">/pago único</span>
+                    </p>
+                    <button
+                        class="bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
+                    >
+                        Elegir Plan
+                    </button>
+                    <ul class="space-y-3 text-[#D0D0D4] mb-8">
+                        <li class="flex items-center">✓ Hasta 3 páginas</li>
+                        <li class="flex items-center">✓ Diseño personalizado premium</li>
+                        <li class="flex items-center">✓ Optimización móvil</li>
+                        <li class="flex items-center">✓ Integración con redes sociales</li>
+                        <li class="flex items-center">✓ SEO avanzado</li>
+                        <li class="flex items-center">✓ Estadísticas básicas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- E-commerce Plans -->
+    <div id="ecommerce-plans" class="hidden w-full max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
+            <!-- Tarjeta Básica -->
+            <div class="h-full">
+                <div class="h-full flex flex-col items-center border border-[#64656C] rounded-3xl p-8 hover:border-[#00FFC4] transition-all duration-300 hover:scale-[1.02]">
+                    <h3 class="text-2xl font-semibold text-white mb-4">
+                        Tienda Básica
+                    </h3>
+                    <p class="text-[#00FFC4] text-4xl font-bold mb-6">
+                        $7,000<span class="text-xl">/pago único</span>
+                    </p>
+                    <button
+                        class="bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
+                    >
+                        Elegir Plan
+                    </button>
+                    <ul class="space-y-3 text-[#D0D0D4] mb-8">
+                        <li class="flex items-center">✓ Hasta 20 productos</li>
+                        <li class="flex items-center">✓ Diseño personalizado</li>
+                        <li class="flex items-center">✓ Carrito de compras</li>
+                        <li class="flex items-center">✓ 1 método de pago</li>
+                        <li class="flex items-center">✓ Panel de administración</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tarjeta Premium -->
+            <div class="h-full">
+                <div class="h-full flex flex-col items-center border-2 border-[#00FFC4] rounded-3xl p-8 relative transform scale-[1.02]">
+                    <span
+                        class="absolute -top-4 bg-[#00FFC4] text-gray-900 text-sm font-bold px-4 py-1 rounded-full"
+                    >
+                        MÁS POPULAR
+                    </span>
+                    <h3 class="text-2xl font-semibold text-white mb-4">
+                        Tienda Premium
+                    </h3>
+                    <p class="text-[#00FFC4] text-4xl font-bold mb-6">
+                        $12,000<span class="text-xl">/pago único</span>
+                    </p>
+                    <button
+                        class="bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
+                    >
+                        Elegir Plan
+                    </button>
+                    <ul class="space-y-3 text-[#D0D0D4] mb-8">
+                        <li class="flex items-center">✓ Productos ilimitados</li>
+                        <li class="flex items-center">✓ Diseño personalizado premium</li>
+                        <li class="flex items-center">✓ Carrito avanzado</li>
+                        <li class="flex items-center">✓ Múltiples métodos de pago</li>
+                        <li class="flex items-center">✓ Panel de administración avanzado</li>
+                        <li class="flex items-center">✓ Integración con redes sociales</li>
+                        <li class="flex items-center">✓ SEO avanzado</li>
+                        <li class="flex items-center">✓ Estadísticas detalladas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
