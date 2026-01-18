@@ -1,32 +1,16 @@
 ---
 import ArrowDown from "../components/icons/ArrowDown.astro";
+import HeroAnimation from "./HeroAnimation.jsx";
 ---
 
 <div id="hero" class="flex min-h-screen bg-[#0d0f19] items-center">
     <div
-        class="flex flex-col items-center justify-center flex-1 h-full bg-gradient-to-b from-[#0d0f19] via-[#16222F] to-[#0d0f19] py-20"
+        class="flex flex-col items-center justify-center flex-1 h-full bg-gradient-to-b from-[#0d0f19] via-[#16222F] to-[#0d0f19] pt-12 md:mt-0"
     >
-        <div>
-            <div
-                class="flex flex-col items-center justify-center flex-1 h-full"
-            >
-                <h1 class="text-7xl font-semibold text-white py-4">
-                    Bunny<span class="text-[#00FFC4]">Web</span>
-                </h1>
-                <p
-                    class="bg-gradient-to-r from-[#999999] to-[#FFFFFF] bg-clip-text text-transparent text-4xl mb-4"
-                >
-                    Tu sitio web hecho a tu medida
-                </p>
-                <a
-                    href="#contact"
-                    class="group
-                    text-white text-xl mt-4 border px-10 py-2 rounded-3xl hover:bg-gradient-to-br from-[#00FFC4] via-[#008D6C] to-[#00FFC4] transition-all hover:scale-105 duration-300"
-                >
-                    Cotiza Ahora
-                </a>
-                <ArrowDown alt="Arrow" class="w-8 h-8 mt-8" href="#Services" />
-            </div>
+        <div class="flex flex-col items-center justify-center flex-1 h-full">
+            <HeroAnimation client:load />
+
+            <ArrowDown alt="Arrow" class="w-20 h-20 mt-8" href="#Services" />
         </div>
     </div>
 </div>
