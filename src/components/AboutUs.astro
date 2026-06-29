@@ -34,32 +34,44 @@ const stats = [
         </p>
     </div>
 
-    <!-- Banda de métricas (count-up al entrar en viewport) -->
+    <!-- Banda de métricas (glass + flares, count-up al entrar en viewport) -->
     <div
         id="about-stats"
-        class="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] md:grid-cols-4"
+        class="relative mt-14 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl"
     >
-        {
-            stats.map((stat) => (
-                <div class="flex flex-col items-center gap-1 px-4 py-8 text-center">
-                    <span class="text-4xl font-bold text-white">
-                        {stat.target !== undefined ? (
-                            <span
-                                class="stat-num"
-                                data-target={stat.target}
-                                data-suffix={stat.suffix ?? ""}
-                            >
-                                {stat.target}
-                                {stat.suffix ?? ""}
-                            </span>
-                        ) : (
-                            stat.text
-                        )}
-                    </span>
-                    <span class="text-sm text-[#9A9AA4]">{stat.label}</span>
-                </div>
-            ))
-        }
+        <!-- Flares verdes -->
+        <div
+            class="pointer-events-none absolute -left-16 -top-24 h-72 w-72 rounded-full bg-[#00FFC4]/25 blur-[90px]"
+        >
+        </div>
+        <div
+            class="pointer-events-none absolute -bottom-28 right-0 h-72 w-96 rounded-full bg-[#00FFC4]/15 blur-[100px]"
+        >
+        </div>
+
+        <div class="relative grid grid-cols-2 gap-y-8 md:grid-cols-4">
+            {
+                stats.map((stat) => (
+                    <div class="flex flex-col items-center gap-1 px-4 py-8 text-center">
+                        <span class="text-4xl font-bold text-white">
+                            {stat.target !== undefined ? (
+                                <span
+                                    class="stat-num"
+                                    data-target={stat.target}
+                                    data-suffix={stat.suffix ?? ""}
+                                >
+                                    {stat.target}
+                                    {stat.suffix ?? ""}
+                                </span>
+                            ) : (
+                                stat.text
+                            )}
+                        </span>
+                        <span class="text-sm text-[#9A9AA4]">{stat.label}</span>
+                    </div>
+                ))
+            }
+        </div>
     </div>
 </section>
 
