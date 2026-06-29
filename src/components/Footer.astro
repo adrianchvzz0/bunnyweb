@@ -1,0 +1,84 @@
+---
+import Logo from "./icons/Logo.astro";
+import EmailIcon from "./icons/EmailIcon.astro";
+import WhatsappIcon from "./icons/WhatsappIcon.astro";
+
+const year = new Date().getFullYear();
+
+const links = [
+    { href: "#hero", label: "Inicio" },
+    { href: "#services", label: "Servicios" },
+    { href: "#plans", label: "Planes" },
+    { href: "#about", label: "Sobre Nosotros" },
+    { href: "#contact", label: "Contacto" },
+];
+---
+
+<footer class="w-full border-t border-[#64656C]/40 mt-20">
+    <div
+        class="max-w-5xl mx-auto px-6 py-12 flex flex-col gap-10 md:flex-row md:items-start md:justify-between"
+    >
+        <!-- Marca -->
+        <div class="flex flex-col gap-4 max-w-sm">
+            <a href="#hero" aria-label="Inicio">
+                <Logo class="w-40 h-12" />
+            </a>
+            <p class="text-[#9A9AA4] text-sm leading-relaxed">
+                Transformamos ideas en sitios web que venden. Diseño moderno,
+                buen gusto y un toque de magia digital.
+            </p>
+        </div>
+
+        <!-- Navegación -->
+        <nav class="flex flex-col gap-3">
+            <h3
+                class="text-xs font-medium uppercase tracking-[0.2em] text-[#00FFC4]"
+            >
+                Navegación
+            </h3>
+            {
+                links.map((link) => (
+                    <a
+                        href={link.href}
+                        class="text-[#D0D0D4] text-sm hover:text-[#00FFC4] transition-colors duration-200 w-fit"
+                    >
+                        {link.label}
+                    </a>
+                ))
+            }
+        </nav>
+
+        <!-- Contacto -->
+        <div class="flex flex-col gap-3">
+            <h3
+                class="text-xs font-medium uppercase tracking-[0.2em] text-[#00FFC4]"
+            >
+                Contacto
+            </h3>
+            <a
+                href="mailto:bunnyweb@gmail.com"
+                class="flex items-center gap-2 text-[#D0D0D4] text-sm hover:text-[#00FFC4] transition-colors duration-200 w-fit"
+            >
+                <EmailIcon class="w-5 h-5" />
+                bunnyweb@gmail.com
+            </a>
+            <a
+                href="https://wa.me/528187097029"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-2 text-[#D0D0D4] text-sm hover:text-[#00FFC4] transition-colors duration-200 w-fit"
+            >
+                <WhatsappIcon class="w-5 h-5" />
+                +52 81 8709 7029
+            </a>
+        </div>
+    </div>
+
+    <div class="border-t border-[#64656C]/40">
+        <div
+            class="max-w-5xl mx-auto px-6 py-6 text-center text-[#9A9AA4] text-sm"
+        >
+            © {year} BunnyWeb. Todos los derechos reservados.
+        </div>
+    </div>
+</footer>

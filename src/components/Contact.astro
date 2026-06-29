@@ -3,25 +3,31 @@ import CopyIcon from "./icons/CopyIcon.astro";
 import WhatsappIcon from "./icons/WhatsappIcon.astro";
 import EmailIcon from "./icons/EmailIcon.astro";
 import CopyAnimation from "./CopyAnimation.jsx";
+
+// 👉 Pega aquí tu Access Key gratuito de https://web3forms.com (creado con tu correo)
+const WEB3FORMS_ACCESS_KEY = "47177857-e972-4ad6-8038-d06bc5af9317";
+
+const inputClass =
+    "w-full bg-white/[0.03] border border-[#64656C]/60 rounded-2xl px-5 py-3.5 text-white placeholder:text-[#7B7C85] focus:border-[#00FFC4] focus:bg-white/[0.05] focus:ring-2 focus:ring-[#00FFC4]/25 outline-none transition-all duration-200";
 ---
 
 <section
     id="contact"
-    class="grid grid-cols-1 md:grid-cols-2 md:max-w-xl items-center justify-center w-full max-w-5xl mx-auto px-4 py-25 relative text-white"
+    class="flex flex-col items-center w-full max-w-2xl mx-auto px-4 py-25 relative text-white"
 >
-    <div class="w-full max-w-5xl mx-auto pr-18 py-20 relative">
-        <h2 class="text-5xl font-semibold text-white py-4">Contacto</h2>
-        <p class="text-2xl text-[#D0D0D4] pb-4">
-            Transformamos ideas en sitios web que <span
-                class="font-bold text-[#00FFC4]">venden</span
-            >.
-        </p>
+    <h2 class="text-5xl font-semibold text-white py-4 text-center">Contacto</h2>
+    <p class="text-2xl text-[#D0D0D4] pb-6 text-center text-balance">
+        Transformamos ideas en sitios web que <span
+            class="font-bold text-[#00FFC4]">venden</span
+        >.
+    </p>
 
+    <div class="flex flex-wrap items-center justify-center gap-3 mb-10">
         <button
             id="copyEmail"
-            class="group flex items-center gap-2 text-white text-xl hover:font-semibold hover:text-[#00FFC4] transition-all duration-300"
+            class="group flex items-center gap-2 border border-[#64656C]/60 rounded-full px-4 py-2 text-[#D0D0D4] hover:text-[#00FFC4] hover:border-[#00FFC4]/50 transition-all duration-300"
         >
-            <EmailIcon class="w-8 h-8" />
+            <EmailIcon class="w-5 h-5" />
             bunnyweb@gmail.com
             <span
                 class="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
@@ -29,60 +35,161 @@ import CopyAnimation from "./CopyAnimation.jsx";
                 <CopyIcon class="w-3 h-3" />
             </span>
         </button>
-        <div id="toast" class="hidden">
-            <CopyAnimation />
-        </div>
-
         <a
-            href="https://wa.me/8187097029"
-            class="flex items-center gap-2 text-white text-xl hover:font-semibold hover:text-[#00FFC4] transition-all duration-300 mt-4"
+            href="https://wa.me/528187097029"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 border border-[#64656C]/60 rounded-full px-4 py-2 text-[#D0D0D4] hover:text-[#00FFC4] hover:border-[#00FFC4]/50 transition-all duration-300"
         >
-            <WhatsappIcon class="w-8 h-8" />
-            +52 8187097029
+            <WhatsappIcon class="w-5 h-5" />
+            +52 81 8709 7029
         </a>
     </div>
-
-    <div class="flex flex-col items-center justify-center gap-4">
-        <input
-            type="text"
-            placeholder="Nombre"
-            class="w-full max-w-xl border border-[#64656C] rounded-3xl p-3 focus:border-[#00FFC4] outline-none"
-        />
-        <input
-            type="email"
-            placeholder="Email"
-            class="w-full max-w-xl border border-[#64656C] rounded-3xl p-3 focus:border-[#00FFC4] outline-none"
-        />
-        <input
-            type="text"
-            placeholder="Asunto"
-            class="w-full max-w-xl border border-[#64656C] rounded-3xl p-6 focus:border-[#00FFC4] outline-none"
-        />
-        <textarea
-            placeholder="Mensaje"
-            class="w-full max-w-xl border border-[#64656C] rounded-3xl p-6 focus:border-[#00FFC4] outline-none"
-        ></textarea>
-        <button
-            class="w-[200px] border border-white p-3 rounded-3xl hover:border-[#00FFC4] transition-all duration-300 hover:scale-105"
-            >Enviar</button
-        >
+    <div id="toast" class="hidden">
+        <CopyAnimation />
     </div>
+
+    <form
+        id="contactForm"
+        class="flex flex-col gap-4 w-full rounded-3xl border border-[#64656C]/40 bg-white/[0.02] p-6 md:p-8 backdrop-blur-sm"
+    >
+        <h3 class="text-xl font-semibold text-white">Envíanos un mensaje</h3>
+
+        <!-- Web3Forms: campos ocultos -->
+        <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+        <input type="hidden" name="from_name" value="Formulario BunnyWeb" />
+        <!-- Honeypot anti-spam (oculto para humanos) -->
+        <input
+            type="checkbox"
+            name="botcheck"
+            class="hidden"
+            style="display:none"
+            tabindex="-1"
+            autocomplete="off"
+        />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+                <label for="name" class="text-sm text-[#9A9AA4]">Nombre</label>
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Tu nombre"
+                    required
+                    class={inputClass}
+                />
+            </div>
+            <div class="flex flex-col gap-1.5">
+                <label for="email" class="text-sm text-[#9A9AA4]">Email</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="tucorreo@ejemplo.com"
+                    required
+                    class={inputClass}
+                />
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+            <label for="subject" class="text-sm text-[#9A9AA4]">Asunto</label>
+            <input
+                id="subject"
+                name="subject"
+                type="text"
+                placeholder="¿En qué te ayudamos?"
+                class={inputClass}
+            />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+            <label for="message" class="text-sm text-[#9A9AA4]">Mensaje</label>
+            <textarea
+                id="message"
+                name="message"
+                placeholder="Cuéntanos sobre tu proyecto…"
+                required
+                class={`${inputClass} min-h-[140px] resize-y`}></textarea>
+        </div>
+
+        <button
+            type="submit"
+            id="submitBtn"
+            class="group mt-1 w-full flex items-center justify-center gap-2 bg-[#00FFC4] text-[#0d0f19] font-semibold py-3.5 rounded-2xl hover:bg-[#008D6C] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+            Enviar mensaje
+            <span
+                class="transition-transform duration-300 group-hover:translate-x-1"
+                >→</span
+            >
+        </button>
+        <p
+            id="formStatus"
+            role="status"
+            aria-live="polite"
+            class="text-sm min-h-[1.25rem] text-center"
+        >
+        </p>
+    </form>
 </section>
 <script is:inline>
+    // --- Copiar email al portapapeles ---
     const copyButton = document.getElementById("copyEmail");
     const toast = document.getElementById("toast");
 
-    copyButton.addEventListener("click", () => {
+    copyButton?.addEventListener("click", () => {
         navigator.clipboard.writeText("bunnyweb@gmail.com").then(() => {
-            // Mostrar el toast
             toast.classList.remove("hidden");
             toast.classList.add("opacity-100");
-
-            // Ocultarlo después de 2.5 segundos
             setTimeout(() => {
                 toast.classList.add("opacity-0");
-                setTimeout(() => toast.classList.add("hidden"), 500); // Espera transición
+                setTimeout(() => toast.classList.add("hidden"), 500);
             }, 2500);
         });
+    });
+
+    // --- Envío del formulario vía Web3Forms ---
+    const form = document.getElementById("contactForm");
+    const status = document.getElementById("formStatus");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        status.textContent = "Enviando…";
+        status.className = "text-sm min-h-[1.25rem] text-[#D0D0D4]";
+        submitBtn.disabled = true;
+
+        const data = Object.fromEntries(new FormData(form));
+
+        try {
+            const res = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            const result = await res.json();
+
+            if (result.success) {
+                status.textContent =
+                    "¡Mensaje enviado! Te contactaremos pronto.";
+                status.className = "text-sm min-h-[1.25rem] text-[#00FFC4]";
+                form.reset();
+            } else {
+                status.textContent =
+                    "No se pudo enviar. Escríbenos por WhatsApp o correo.";
+                status.className = "text-sm min-h-[1.25rem] text-red-400";
+            }
+        } catch (err) {
+            status.textContent =
+                "Error de conexión. Escríbenos por WhatsApp o correo.";
+            status.className = "text-sm min-h-[1.25rem] text-red-400";
+        } finally {
+            submitBtn.disabled = false;
+        }
     });
 </script>

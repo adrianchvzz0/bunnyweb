@@ -3,28 +3,70 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 // Supports weights 100-900
 import "@fontsource-variable/onest";
+
+const title = "BunnyWeb | Desarrollo y diseño web";
+const description =
+	"En BunnyWeb creamos landing pages y tiendas en línea a medida: diseño moderno, rápido y pensado para vender.";
+// 👉 Actualiza esta URL al dominio final cuando despliegues
+const siteUrl = "https://bunnyweb.com";
+const ogImage = `${siteUrl}/og-image.png`;
 ---
 
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>BunnyWeb | Web Development</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="description" content="BunnyWeb - Desarrollo y diseño web" />
+		<link rel="canonical" href={siteUrl} />
+		<meta name="description" content={description} />
 		<meta
 			name="keywords"
-			content="BunnyWeb, Web Development, Web Design, Web Development Company"
+			content="BunnyWeb, desarrollo web, diseño web, landing page, e-commerce, Monterrey"
 		/>
+		<meta name="theme-color" content="#0d0f19" />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={siteUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:locale" content="es_MX" />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
 	</head>
 	<body>
+		<!-- Glows ambientales (se mueven con el scroll, anclados a las secciones) -->
+		<div class="bg-glows" aria-hidden="true">
+			<div
+				class="absolute left-[8%] top-[20%] h-[500px] w-[500px] rounded-full bg-[#00FFC4]/[0.06] blur-[160px]"
+			>
+			</div>
+			<div
+				class="absolute right-[2%] top-[50%] h-[520px] w-[620px] rounded-full bg-[#00FFC4]/[0.05] blur-[170px]"
+			>
+			</div>
+			<div
+				class="absolute left-[12%] top-[82%] h-[460px] w-[560px] rounded-full bg-[#2563eb]/[0.05] blur-[180px]"
+			>
+			</div>
+		</div>
+
 		<Header />
 		<main>
 			<slot />
 		</main>
 		<Footer />
+
+		<!-- Grano fino sobre todo el sitio -->
+		<div class="grain" aria-hidden="true"></div>
 	</body>
 </html>
 
@@ -34,9 +76,36 @@ import "@fontsource-variable/onest";
 		scroll-behavior: smooth;
 	}
 	body {
+		position: relative;
 		margin: 0;
 		width: 100%;
-		height: 100%;
+		min-height: 100%;
 		background-color: #0d0f19;
+		overflow-x: hidden;
+	}
+
+	.bg-glows {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	.grain {
+		position: fixed;
+		inset: 0;
+		z-index: 60;
+		pointer-events: none;
+		opacity: 0.045;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+		background-size: 180px 180px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.grain {
+			display: none;
+		}
 	}
 </style>

@@ -1,51 +1,5 @@
 ---
-// Estado inicial
-let planType = "landing";
-
-// Función para actualizar la visibilidad de los planes
-const updatePlanVisibility = () => {
-    const landingPlans = document.getElementById("landing-plans");
-    const ecommercePlans = document.getElementById("ecommerce-plans");
-    const landingLabel = document.querySelector(
-        '.plan-label[data-plan="landing"]',
-    );
-    const ecommerceLabel = document.querySelector(
-        '.plan-label[data-plan="ecommerce"]',
-    );
-    const toggleButton = document.querySelector(".toggle-button");
-
-    if (planType === "landing") {
-        if (landingPlans) landingPlans.classList.remove("hidden");
-        if (ecommercePlans) ecommercePlans.classList.add("hidden");
-        if (landingLabel) {
-            landingLabel.classList.add("text-[#00FFC4]");
-            landingLabel.classList.remove("text-[#D0D0D4]");
-        }
-        if (ecommerceLabel) {
-            ecommerceLabel.classList.remove("text-[#00FFC4]");
-            ecommerceLabel.classList.add("text-[#D0D0D4]");
-        }
-        if (toggleButton) toggleButton.classList.remove("translate-x-7");
-    } else {
-        if (landingPlans) landingPlans.classList.add("hidden");
-        if (ecommercePlans) ecommercePlans.classList.remove("hidden");
-        if (landingLabel) {
-            landingLabel.classList.remove("text-[#00FFC4]");
-            landingLabel.classList.add("text-[#D0D0D4]");
-        }
-        if (ecommerceLabel) {
-            ecommerceLabel.classList.add("text-[#00FFC4]");
-            ecommerceLabel.classList.remove("text-[#D0D0D4]");
-        }
-        if (toggleButton) toggleButton.classList.add("translate-x-7");
-    }
-};
-
-// Inicializar visibilidad al cargar
-if (typeof document !== "undefined") {
-    document.addEventListener("astro:page-load", updatePlanVisibility);
-    document.addEventListener("DOMContentLoaded", updatePlanVisibility);
-}
+// La lógica del toggle vive en el <script is:inline> de abajo (corre en el cliente).
 ---
 
 <script is:inline>
@@ -68,34 +22,29 @@ if (typeof document !== "undefined") {
             '.plan-label[data-plan="ecommerce"]',
         );
         const toggleButton = document.querySelector(".toggle-button");
+        const switchBtn = document.querySelector('[role="switch"]');
+        const isEcommerce = window.planType !== "landing";
 
-        if (window.planType === "landing") {
-            landingPlans?.classList.remove("hidden");
-            ecommercePlans?.classList.add("hidden");
+        landingPlans?.classList.toggle("hidden", isEcommerce);
+        ecommercePlans?.classList.toggle("hidden", !isEcommerce);
 
-            landingLabel?.classList.add("text-[#00FFC4]");
-            landingLabel?.classList.remove("text-[#D0D0D4]");
+        landingLabel?.classList.toggle("text-[#00FFC4]", !isEcommerce);
+        landingLabel?.classList.toggle("text-[#D0D0D4]", isEcommerce);
 
-            ecommerceLabel?.classList.remove("text-[#00FFC4]");
-            ecommerceLabel?.classList.add("text-[#D0D0D4]");
+        ecommerceLabel?.classList.toggle("text-[#00FFC4]", isEcommerce);
+        ecommerceLabel?.classList.toggle("text-[#D0D0D4]", !isEcommerce);
 
-            toggleButton?.classList.remove("translate-x-7");
-        } else {
-            landingPlans?.classList.add("hidden");
-            ecommercePlans?.classList.remove("hidden");
+        toggleButton?.classList.toggle("translate-x-7", isEcommerce);
+        switchBtn?.setAttribute("aria-checked", String(isEcommerce));
+    };
 
-            landingLabel?.classList.remove("text-[#00FFC4]");
-            landingLabel?.classList.add("text-[#D0D0D4]");
-
-            ecommerceLabel?.classList.add("text-[#00FFC4]");
-            ecommerceLabel?.classList.remove("text-[#D0D0D4]");
-
-            toggleButton?.classList.add("translate-x-7");
-        }
+    // Prefijar el asunto del formulario al elegir un plan
+    window.selectPlan = (name) => {
+        const subject = document.getElementById("subject");
+        if (subject) subject.value = "Cotización: " + name;
     };
 
     // Ejecutar al cargar
-    document.addEventListener("astro:page-load", window.updatePlanVisibility);
     document.addEventListener("DOMContentLoaded", window.updatePlanVisibility);
 </script>
 
@@ -154,13 +103,17 @@ if (typeof document !== "undefined") {
                     <p class="text-[#00FFC4] text-4xl font-bold mb-6">
                         $2,999<span class="text-xl">/pago único</span>
                     </p>
-                    <button
-                        class="bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
+                    <a
+                        href="#contact"
+                        onclick="window.selectPlan('Landing Básica')"
+                        class="inline-block text-center bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
                     >
                         Elegir Plan
-                    </button>
+                    </a>
                     <ul class="space-y-3 text-[#D0D0D4] mb-8">
-                        <li class="flex items-center">✓ Hasta 5 secciones</li>
+                        <li class="flex items-center">
+                            ✓ 1 página (hasta 5 secciones)
+                        </li>
                         <li class="flex items-center">
                             ✓ Diseño personalizado
                         </li>
@@ -189,11 +142,13 @@ if (typeof document !== "undefined") {
                     <p class="text-[#00FFC4] text-4xl font-bold mb-6">
                         $6,000<span class="text-xl">/pago único</span>
                     </p>
-                    <button
-                        class="bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
+                    <a
+                        href="#contact"
+                        onclick="window.selectPlan('Landing Premium')"
+                        class="inline-block text-center bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
                     >
                         Elegir Plan
-                    </button>
+                    </a>
                     <ul class="space-y-3 text-[#D0D0D4] mb-8">
                         <li class="flex items-center">✓ Hasta 3 páginas</li>
                         <li class="flex items-center">
@@ -227,11 +182,13 @@ if (typeof document !== "undefined") {
                     <p class="text-[#00FFC4] text-4xl font-bold mb-6">
                         $7,000<span class="text-xl">/pago único</span>
                     </p>
-                    <button
-                        class="bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
+                    <a
+                        href="#contact"
+                        onclick="window.selectPlan('Tienda Básica')"
+                        class="inline-block text-center bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
                     >
                         Elegir Plan
-                    </button>
+                    </a>
                     <ul class="space-y-3 text-[#D0D0D4] mb-8">
                         <li class="flex items-center">✓ Hasta 20 productos</li>
                         <li class="flex items-center">
@@ -262,11 +219,13 @@ if (typeof document !== "undefined") {
                     <p class="text-[#00FFC4] text-4xl font-bold mb-6">
                         $12,000<span class="text-xl">/pago único</span>
                     </p>
-                    <button
-                        class="bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
+                    <a
+                        href="#contact"
+                        onclick="window.selectPlan('Tienda Premium')"
+                        class="inline-block text-center bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 hover:bg-[#008D6C] hover:text-gray-900 hover:scale-105 transition-all"
                     >
                         Elegir Plan
-                    </button>
+                    </a>
                     <ul class="space-y-3 text-[#D0D0D4] mb-8">
                         <li class="flex items-center">
                             ✓ Productos ilimitados

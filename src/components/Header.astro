@@ -52,8 +52,11 @@ import Logo from "../components/icons/Logo.astro";
         <div class="md:hidden">
             <button
                 id="menu-toggle"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
                 class="text-[#D0D0D4] focus:outline-none hover:text-[#00FFC4] transition-all duration-300"
-                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+                onclick="const m=document.getElementById('mobile-menu');const closed=m.classList.toggle('hidden');this.setAttribute('aria-expanded', String(!closed));"
             >
                 <!-- Icono de hamburguesa -->
                 <svg
