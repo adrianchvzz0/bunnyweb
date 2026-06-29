@@ -1,0 +1,27 @@
+---
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+    <section
+        class="flex min-h-screen flex-col items-center justify-center px-6 text-center"
+    >
+        <p class="text-sm font-medium uppercase tracking-[0.3em] text-[#00FFC4]">
+            Error 404
+        </p>
+        <h1 class="mt-4 text-5xl font-medium text-white sm:text-6xl">
+            Página no encontrada
+        </h1>
+        <p class="mt-4 max-w-md text-lg text-[#9A9AA4]">
+            La página que buscas no existe o cambió de lugar. Volvamos a un lugar
+            seguro.
+        </p>
+        <a
+            href="/"
+            class="mt-8 inline-flex items-center gap-2 rounded-full bg-[#00FFC4] px-8 py-3.5 font-semibold text-[#0d0f19] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.55)]"
+        >
+            Volver al inicio
+        </a>
+    </section>
+</Layout>

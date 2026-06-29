@@ -7,9 +7,36 @@ import "@fontsource-variable/onest";
 const title = "BunnyWeb | Desarrollo y diseño web";
 const description =
 	"En BunnyWeb creamos landing pages y tiendas en línea a medida: diseño moderno, rápido y pensado para vender.";
-// 👉 Actualiza esta URL al dominio final cuando despliegues
-const siteUrl = "https://bunnyweb.com";
+// 👉 Actualiza esta URL si migras a un dominio propio
+const siteUrl = "https://bunnywebstore.netlify.app";
 const ogImage = `${siteUrl}/og-image.png`;
+
+// Datos estructurados (JSON-LD) para SEO local
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "ProfessionalService",
+	name: "BunnyWeb",
+	description,
+	url: siteUrl,
+	image: ogImage,
+	logo: `${siteUrl}/favicon.png`,
+	email: "bunnyweb@gmail.com",
+	telephone: "+52-81-8709-7029",
+	priceRange: "$$",
+	areaServed: "Monterrey, Nuevo León, México",
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "Monterrey",
+		addressRegion: "Nuevo León",
+		addressCountry: "MX",
+	},
+	knowsAbout: [
+		"Diseño web",
+		"Desarrollo web",
+		"Landing pages",
+		"E-commerce",
+	],
+};
 ---
 
 <!doctype html>
@@ -42,6 +69,9 @@ const ogImage = `${siteUrl}/og-image.png`;
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImage} />
+
+		<!-- Datos estructurados -->
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	</head>
 	<body>
 		<!-- Glows ambientales (se mueven con el scroll, anclados a las secciones) -->

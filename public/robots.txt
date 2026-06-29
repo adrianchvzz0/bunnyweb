@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bunnywebstore.netlify.app/sitemap-index.xml
