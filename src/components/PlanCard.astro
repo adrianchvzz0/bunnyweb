@@ -1,0 +1,61 @@
+---
+const {
+    name,
+    descriptor,
+    price,
+    popular = false,
+    features = [],
+    quote,
+} = Astro.props;
+---
+
+<div
+    class:list={[
+        "relative flex h-full flex-col rounded-3xl bg-white/[0.02] p-8 transition-all duration-300",
+        popular
+            ? "border-2 border-[#00FFC4]/60 shadow-[0_20px_60px_-25px_rgba(0,255,196,0.45)]"
+            : "border border-[#64656C]/60 hover:-translate-y-1 hover:border-[#00FFC4]/40",
+    ]}
+>
+    {
+        popular && (
+            <span class="absolute -top-3 left-8 rounded-full bg-[#00FFC4] px-3 py-1 text-xs font-bold text-[#0d0f19]">
+                Más popular
+            </span>
+        )
+    }
+
+    <h3 class="text-xl font-semibold text-white">{name}</h3>
+    <p class="mt-1 text-sm text-[#9A9AA4]">{descriptor}</p>
+
+    <div class="mt-5 flex items-baseline gap-1.5">
+        <span class="text-4xl font-bold text-white">{price}</span>
+        <span class="text-sm text-[#9A9AA4]">/ pago único</span>
+    </div>
+
+    <a
+        href="#contact"
+        onclick={`window.selectPlan && window.selectPlan('${quote}')`}
+        class:list={[
+            "mt-6 w-full rounded-full py-3 text-center font-semibold transition-all duration-300",
+            popular
+                ? "bg-[#00FFC4] text-[#0d0f19] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.5)]"
+                : "border border-[#64656C] text-white hover:border-[#00FFC4] hover:bg-white/5 hover:text-[#00FFC4]",
+        ]}
+    >
+        Elegir plan
+    </a>
+
+    <div class="my-6 h-px bg-white/10"></div>
+
+    <ul class="space-y-3">
+        {
+            features.map((feature) => (
+                <li class="flex items-start gap-3 text-[#9A9AA4]">
+                    <span class="mt-0.5 text-[#00FFC4]">✓</span>
+                    <span>{feature}</span>
+                </li>
+            ))
+        }
+    </ul>
+</div>

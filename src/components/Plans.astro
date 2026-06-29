@@ -1,255 +1,184 @@
 ---
-// La lógica del toggle vive en el <script is:inline> de abajo (corre en el cliente).
+import PlanCard from "./PlanCard.astro";
+
+const landingPlans = [
+    {
+        name: "Landing Básica",
+        descriptor: "Ideal para presentar tu negocio.",
+        price: "$2,999",
+        popular: false,
+        quote: "Landing Básica",
+        features: [
+            "1 página (hasta 5 secciones)",
+            "Diseño personalizado",
+            "Optimización móvil",
+            "Formulario de contacto",
+            "SEO básico",
+        ],
+    },
+    {
+        name: "Landing Premium",
+        descriptor: "Para campañas y presencia completa.",
+        price: "$6,000",
+        popular: true,
+        quote: "Landing Premium",
+        features: [
+            "Hasta 3 páginas",
+            "Diseño personalizado premium",
+            "Optimización móvil",
+            "Integración con redes sociales",
+            "SEO avanzado",
+            "Estadísticas básicas",
+        ],
+    },
+];
+
+const ecommercePlans = [
+    {
+        name: "Tienda Básica",
+        descriptor: "Empieza a vender en línea.",
+        price: "$7,000",
+        popular: false,
+        quote: "Tienda Básica",
+        features: [
+            "Hasta 20 productos",
+            "Diseño personalizado",
+            "Carrito de compras",
+            "1 método de pago",
+            "Panel de administración",
+        ],
+    },
+    {
+        name: "Tienda Premium",
+        descriptor: "Tienda completa, sin límites.",
+        price: "$12,000",
+        popular: true,
+        quote: "Tienda Premium",
+        features: [
+            "Productos ilimitados",
+            "Diseño personalizado premium",
+            "Carrito avanzado",
+            "Múltiples métodos de pago",
+            "Panel de administración avanzado",
+            "Integración con redes sociales",
+            "SEO avanzado",
+            "Estadísticas detalladas",
+        ],
+    },
+];
 ---
 
+<div id="plans" class="w-full max-w-5xl mx-auto px-6 md:px-4 py-30">
+    <div class="text-center">
+        <h2 class="text-5xl font-semibold text-white">Planes</h2>
+        <p class="mt-3 text-xl text-[#9A9AA4]">
+            El plan <span class="text-[#00FFC4]">perfecto</span> para ti. Todos incluyen
+            personalización y cotización gratis.
+        </p>
+    </div>
+
+    <!-- Control segmentado -->
+    <div class="mt-10 flex justify-center">
+        <div
+            class="inline-flex rounded-full border border-[#64656C]/60 bg-white/[0.03] p-1"
+            role="tablist"
+        >
+            <button
+                type="button"
+                data-plan="landing"
+                aria-pressed="true"
+                onclick="window.setPlanType('landing')"
+                class="seg active rounded-full px-6 py-2 text-sm font-medium transition-colors"
+            >
+                Landing Page
+            </button>
+            <button
+                type="button"
+                data-plan="ecommerce"
+                aria-pressed="false"
+                onclick="window.setPlanType('ecommerce')"
+                class="seg rounded-full px-6 py-2 text-sm font-medium transition-colors"
+            >
+                E-commerce
+            </button>
+        </div>
+    </div>
+
+    <!-- Planes Landing -->
+    <div id="landing-plans" class="mt-14 max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+            {landingPlans.map((plan) => <PlanCard {...plan} />)}
+        </div>
+    </div>
+
+    <!-- Planes E-commerce -->
+    <div id="ecommerce-plans" class="hidden mt-14 max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+            {ecommercePlans.map((plan) => <PlanCard {...plan} />)}
+        </div>
+    </div>
+</div>
+
 <script is:inline>
-    // Declaramos planType como propiedad del window para que sea global
-    window.planType = "landing";
+    window.setPlanType = (type) => {
+        const isLanding = type === "landing";
+        const landing = document.getElementById("landing-plans");
+        const ecommerce = document.getElementById("ecommerce-plans");
+        const show = isLanding ? landing : ecommerce;
+        const hide = isLanding ? ecommerce : landing;
 
-    window.togglePlanType = () => {
-        window.planType =
-            window.planType === "landing" ? "ecommerce" : "landing";
-        window.updatePlanVisibility();
+        hide?.classList.add("hidden");
+        if (show) {
+            show.classList.remove("hidden", "plan-in");
+            void show.offsetWidth; // reflow para reiniciar la animación
+            show.classList.add("plan-in");
+        }
+
+        document.querySelectorAll(".seg").forEach((btn) => {
+            const active = btn.dataset.plan === type;
+            btn.classList.toggle("active", active);
+            btn.setAttribute("aria-pressed", String(active));
+        });
     };
 
-    window.updatePlanVisibility = () => {
-        const landingPlans = document.getElementById("landing-plans");
-        const ecommercePlans = document.getElementById("ecommerce-plans");
-        const landingLabel = document.querySelector(
-            '.plan-label[data-plan="landing"]',
-        );
-        const ecommerceLabel = document.querySelector(
-            '.plan-label[data-plan="ecommerce"]',
-        );
-        const toggleButton = document.querySelector(".toggle-button");
-        const switchBtn = document.querySelector('[role="switch"]');
-        const isEcommerce = window.planType !== "landing";
-
-        landingPlans?.classList.toggle("hidden", isEcommerce);
-        ecommercePlans?.classList.toggle("hidden", !isEcommerce);
-
-        landingLabel?.classList.toggle("text-[#00FFC4]", !isEcommerce);
-        landingLabel?.classList.toggle("text-[#D0D0D4]", isEcommerce);
-
-        ecommerceLabel?.classList.toggle("text-[#00FFC4]", isEcommerce);
-        ecommerceLabel?.classList.toggle("text-[#D0D0D4]", !isEcommerce);
-
-        toggleButton?.classList.toggle("translate-x-7", isEcommerce);
-        switchBtn?.setAttribute("aria-checked", String(isEcommerce));
-    };
-
-    // Prefijar el asunto del formulario al elegir un plan
+    // Prefija el asunto del formulario al elegir un plan (lo usa también Servicios)
     window.selectPlan = (name) => {
         const subject = document.getElementById("subject");
         if (subject) subject.value = "Cotización: " + name;
     };
 
-    // Ejecutar al cargar
-    document.addEventListener("DOMContentLoaded", window.updatePlanVisibility);
+    document.addEventListener("DOMContentLoaded", () =>
+        window.setPlanType("landing"),
+    );
 </script>
 
-<div id="plans" class="w-full max-w-5xl mx-auto md:px-4 px-12 py-30">
-    <h2 class="text-5xl font-semibold text-white py-4">Planes</h2>
-    <p class="text-2xl text-[#D0D0D4] mb-10">
-        Tenemos el plan <span class="font-regular text-[#00FFC4]">perfecto</span
-        > para tí.
-        <br class="md:hidden" />
-        Todos los planes incluyen personalización y cotización gratuita.
-    </p>
+<style>
+    .seg {
+        color: #9a9aa4;
+        cursor: pointer;
+    }
+    .seg.active {
+        background-color: #00ffc4;
+        color: #0d0f19;
+    }
 
-    <div class="flex justify-center mb-16">
-        <div class="relative inline-flex items-center">
-            <span
-                class="plan-label mr-3 text-lg font-medium text-[#00FFC4] cursor-pointer"
-                data-plan="landing"
-                onclick="window.togglePlanType()"
-            >
-                Landing Page
-            </span>
-            <div class="relative inline-block w-14 h-7">
-                <button
-                    type="button"
-                    onclick="window.togglePlanType()"
-                    class="absolute w-full h-full bg-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00FFC4]"
-                    role="switch"
-                    aria-checked="false"
-                >
-                    <span
-                        class="toggle-button absolute left-1 top-1 w-5 h-5 bg-[#00FFC4] rounded-full shadow-md transition-transform duration-200 ease-in-out"
-                    ></span>
-                </button>
-            </div>
-            <span
-                class="plan-label ml-3 text-lg font-medium text-[#D0D0D4] cursor-pointer"
-                data-plan="ecommerce"
-                onclick="window.togglePlanType()"
-            >
-                E-commerce
-            </span>
-        </div>
-    </div>
-
-    <!-- Landing Plans -->
-    <div id="landing-plans" class="w-full max-w-4xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
-            <!-- Tarjeta Básica -->
-            <div class="h-full">
-                <div
-                    class="h-full flex flex-col items-center border border-[#64656C] rounded-3xl p-8 hover:border-[#00FFC4] transition-all duration-300 hover:scale-[1.02]"
-                >
-                    <h3 class="text-2xl font-semibold text-white mb-4">
-                        Landing Básica
-                    </h3>
-                    <p class="text-[#00FFC4] text-4xl font-bold mb-6">
-                        $2,999<span class="text-xl">/pago único</span>
-                    </p>
-                    <a
-                        href="#contact"
-                        onclick="window.selectPlan('Landing Básica')"
-                        class="inline-block text-center bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.5)]"
-                    >
-                        Elegir Plan
-                    </a>
-                    <ul class="space-y-3 text-[#D0D0D4] mb-8">
-                        <li class="flex items-center">
-                            ✓ 1 página (hasta 5 secciones)
-                        </li>
-                        <li class="flex items-center">
-                            ✓ Diseño personalizado
-                        </li>
-                        <li class="flex items-center">✓ Optimización móvil</li>
-                        <li class="flex items-center">
-                            ✓ Formulario de contacto
-                        </li>
-                        <li class="flex items-center">✓ SEO básico</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Tarjeta Premium -->
-            <div class="h-full">
-                <div
-                    class="h-full flex flex-col items-center border-2 border-[#00FFC4] rounded-3xl p-8 relative transform scale-[1.02]"
-                >
-                    <span
-                        class="absolute -top-4 bg-[#00FFC4] text-gray-900 text-sm font-bold px-4 py-1 rounded-full"
-                    >
-                        MÁS POPULAR
-                    </span>
-                    <h3 class="text-2xl font-semibold text-white mb-4">
-                        Landing Premium
-                    </h3>
-                    <p class="text-[#00FFC4] text-4xl font-bold mb-6">
-                        $6,000<span class="text-xl">/pago único</span>
-                    </p>
-                    <a
-                        href="#contact"
-                        onclick="window.selectPlan('Landing Premium')"
-                        class="inline-block text-center bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.5)]"
-                    >
-                        Elegir Plan
-                    </a>
-                    <ul class="space-y-3 text-[#D0D0D4] mb-8">
-                        <li class="flex items-center">✓ Hasta 3 páginas</li>
-                        <li class="flex items-center">
-                            ✓ Diseño personalizado premium
-                        </li>
-                        <li class="flex items-center">✓ Optimización móvil</li>
-                        <li class="flex items-center">
-                            ✓ Integración con redes sociales
-                        </li>
-                        <li class="flex items-center">✓ SEO avanzado</li>
-                        <li class="flex items-center">
-                            ✓ Estadísticas básicas
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- E-commerce Plans -->
-    <div id="ecommerce-plans" class="hidden w-full max-w-4xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
-            <!-- Tarjeta Básica -->
-            <div class="h-full">
-                <div
-                    class="h-full flex flex-col items-center border border-[#64656C] rounded-3xl p-8 hover:border-[#00FFC4] transition-all duration-300 hover:scale-[1.02]"
-                >
-                    <h3 class="text-2xl font-semibold text-white mb-4">
-                        Tienda Básica
-                    </h3>
-                    <p class="text-[#00FFC4] text-4xl font-bold mb-6">
-                        $7,000<span class="text-xl">/pago único</span>
-                    </p>
-                    <a
-                        href="#contact"
-                        onclick="window.selectPlan('Tienda Básica')"
-                        class="inline-block text-center bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.5)]"
-                    >
-                        Elegir Plan
-                    </a>
-                    <ul class="space-y-3 text-[#D0D0D4] mb-8">
-                        <li class="flex items-center">✓ Hasta 20 productos</li>
-                        <li class="flex items-center">
-                            ✓ Diseño personalizado
-                        </li>
-                        <li class="flex items-center">✓ Carrito de compras</li>
-                        <li class="flex items-center">✓ 1 método de pago</li>
-                        <li class="flex items-center">
-                            ✓ Panel de administración
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Tarjeta Premium -->
-            <div class="h-full">
-                <div
-                    class="h-full flex flex-col items-center border-2 border-[#00FFC4] rounded-3xl p-8 relative transform scale-[1.02]"
-                >
-                    <span
-                        class="absolute -top-4 bg-[#00FFC4] text-gray-900 text-sm font-bold px-4 py-1 rounded-full"
-                    >
-                        MÁS POPULAR
-                    </span>
-                    <h3 class="text-2xl font-semibold text-white mb-4">
-                        Tienda Premium
-                    </h3>
-                    <p class="text-[#00FFC4] text-4xl font-bold mb-6">
-                        $12,000<span class="text-xl">/pago único</span>
-                    </p>
-                    <a
-                        href="#contact"
-                        onclick="window.selectPlan('Tienda Premium')"
-                        class="inline-block text-center bg-[#00FFC4] text-gray-900 font-semibold py-3 px-12 rounded-full mb-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.5)]"
-                    >
-                        Elegir Plan
-                    </a>
-                    <ul class="space-y-3 text-[#D0D0D4] mb-8">
-                        <li class="flex items-center">
-                            ✓ Productos ilimitados
-                        </li>
-                        <li class="flex items-center">
-                            ✓ Diseño personalizado premium
-                        </li>
-                        <li class="flex items-center">✓ Carrito avanzado</li>
-                        <li class="flex items-center">
-                            ✓ Múltiples métodos de pago
-                        </li>
-                        <li class="flex items-center">
-                            ✓ Panel de administración avanzado
-                        </li>
-                        <li class="flex items-center">
-                            ✓ Integración con redes sociales
-                        </li>
-                        <li class="flex items-center">✓ SEO avanzado</li>
-                        <li class="flex items-center">
-                            ✓ Estadísticas detalladas
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    /* Transición al cambiar entre Landing / E-commerce */
+    @keyframes planFade {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .plan-in {
+        animation: planFade 0.35s ease-out;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .plan-in {
+            animation: none;
+        }
+    }
+</style>
