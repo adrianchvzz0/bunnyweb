@@ -68,9 +68,13 @@ const ecommercePlans = [
 ];
 ---
 
-<div id="plans" class="w-full max-w-5xl mx-auto px-6 md:px-4 py-30">
+<section
+    id="plans"
+    aria-labelledby="plans-title"
+    class="w-full max-w-5xl mx-auto px-6 md:px-4 py-30"
+>
     <div class="text-center">
-        <h2 class="text-5xl font-semibold text-white">Planes</h2>
+        <h2 id="plans-title" class="text-5xl font-semibold text-white">Planes</h2>
         <p class="mt-3 text-xl text-[#9A9AA4]">
             El plan <span class="text-[#00FFC4]">perfecto</span> para ti. Todos incluyen
             personalización y cotización gratis.
@@ -117,7 +121,7 @@ const ecommercePlans = [
             {ecommercePlans.map((plan) => <PlanCard {...plan} />)}
         </div>
     </div>
-</div>
+</section>
 
 <script is:inline>
     window.setPlanType = (type) => {

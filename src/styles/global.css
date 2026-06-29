@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
 /* Offset para que el navbar fijo no tape el inicio de cada sección al navegar por anclas */
-:where(#hero, #services, #plans, #about, #contact) {
+:where(#hero, #services, #proyectos, #plans, #about, #faq, #contact) {
     scroll-margin-top: 6rem;
 }

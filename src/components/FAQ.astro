@@ -1,0 +1,73 @@
+---
+const faqs = [
+    {
+        q: "¿Cuánto tarda en estar listo mi sitio?",
+        a: "Una landing page suele tomar de 1 a 2 semanas y una tienda en línea de 3 a 5, según el alcance. Desde la cotización te damos una fecha de entrega clara.",
+    },
+    {
+        q: "¿Qué incluye el precio?",
+        a: "Diseño a medida, desarrollo, optimización para móvil y SEO básico. Cada plan detalla lo que incluye y todo es personalizable según lo que necesites.",
+    },
+    {
+        q: "¿Necesito tener dominio y hosting?",
+        a: "No para empezar. Te asesoramos para conseguirlos, o dejamos tu sitio desplegado y listo para conectar tu dominio cuando lo tengas.",
+    },
+    {
+        q: "¿Puedo pedir cambios durante el proyecto?",
+        a: "Sí. Trabajamos con rondas de revisión para que el resultado quede justo a tu gusto antes de publicar.",
+    },
+    {
+        q: "¿Cómo funcionan los pagos?",
+        a: "Normalmente un anticipo para arrancar y el resto contra entrega. Lo acordamos contigo según el plan que elijas.",
+    },
+    {
+        q: "¿Dan mantenimiento después de entregar?",
+        a: "Sí, ofrecemos soporte y mantenimiento opcional para mantener tu sitio actualizado, rápido y seguro.",
+    },
+];
+
+const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+};
+---
+
+<section
+    id="faq"
+    aria-labelledby="faq-title"
+    class="w-full max-w-3xl mx-auto px-6 md:px-4 py-22 md:py-30"
+>
+    <div class="text-center">
+        <h2 id="faq-title" class="text-5xl font-semibold text-white">
+            Preguntas frecuentes
+        </h2>
+        <p class="mt-3 text-xl text-[#9A9AA4]">
+            Lo que más nos preguntan antes de empezar.
+        </p>
+    </div>
+
+    <div class="mt-12 divide-y divide-white/10 border-y border-white/10">
+        {
+            faqs.map((faq) => (
+                <details class="group">
+                    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-medium text-white transition-colors hover:text-[#00FFC4] [&::-webkit-details-marker]:hidden">
+                        {faq.q}
+                        <span class="shrink-0 text-2xl font-light text-[#00FFC4] transition-transform duration-300 group-open:rotate-45">
+                            +
+                        </span>
+                    </summary>
+                    <p class="pb-5 pr-8 text-[#9A9AA4] leading-relaxed">
+                        {faq.a}
+                    </p>
+                </details>
+            ))
+        }
+    </div>
+
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+</section>
