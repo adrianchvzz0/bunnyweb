@@ -163,4 +163,27 @@ import Logo from "../components/icons/Logo.astro";
         -webkit-backdrop-filter: blur(16px) saturate(140%);
         backdrop-filter: blur(16px) saturate(140%);
     }
+
+    /* Animación de apertura del menú móvil (se dispara al pasar de display:none a visible) */
+    @keyframes menuIn {
+        from {
+            opacity: 0;
+            transform: translateY(-8px) scale(0.98);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    #mobile-menu {
+        transform-origin: top center;
+    }
+    #mobile-menu:not(.hidden) {
+        animation: menuIn 0.25s ease-out;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        #mobile-menu:not(.hidden) {
+            animation: none;
+        }
+    }
 </style>
