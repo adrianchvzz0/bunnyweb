@@ -1,5 +1,11 @@
 ---
-
+// Métricas editables. Las que tienen `target` hacen count-up; `text` queda fijo.
+const stats = [
+    { target: 4, suffix: "+", label: "Proyectos en producción" },
+    { target: 100, suffix: "%", label: "Diseño a la medida" },
+    { text: "3-4 sem", label: "Entrega típica" },
+    { target: 24, suffix: " h", label: "Cotización gratis" },
+];
 ---
 
 <section
@@ -7,23 +13,97 @@
     aria-labelledby="about-title"
     class="w-full max-w-5xl mx-auto px-6 md:px-4 py-22 md:py-30"
 >
-    <div class="flex items-center justify-center">
-        <h2 id="about-title" class="text-5xl font-semibold text-white py-4">
+    <div class="mx-auto max-w-3xl text-center">
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#00FFC4]">
             Nosotros
-        </h2>
-    </div>
-    <p
-        class="text-2xl text-[#D0D0D4] mb-10 text-center font-regular text-balance max-w-3xl mx-auto"
-    >
-        <span class="font-bold text-white text-2xl"
-            >Somos BunnyWeb, donde la creatividad salta más alto.</span
+        </p>
+        <h2
+            id="about-title"
+            class="mt-4 text-3xl font-semibold text-white text-balance md:text-4xl"
         >
-        <br />
-        Nos apasiona construir espacios digitales que conecten, vendan y crezcan
-        contigo. Ya sea que necesites una <span
-            class="font-bold text-[#00FFC4]">landing page llamativa</span
-        > o un <span class="font-bold text-[#00FFC4]">e-commerce poderoso</span
-        >, estamos aquí para hacerlo realidad con diseño moderno, buen gusto y un
-        toque de magia digital.
-    </p>
+            Somos BunnyWeb, donde la creatividad salta más alto.
+        </h2>
+        <p class="mt-6 text-lg text-[#9A9AA4] text-balance md:text-xl">
+            Nos apasiona construir espacios digitales que conecten, vendan y
+            crezcan contigo. Ya sea que necesites una <span
+                class="font-medium text-[#00FFC4]">landing page llamativa</span
+            > o un <span class="font-medium text-[#00FFC4]"
+                >e-commerce poderoso</span
+            >, lo hacemos realidad con diseño moderno, buen gusto y un toque de
+            magia digital.
+        </p>
+    </div>
+
+    <!-- Banda de métricas (count-up al entrar en viewport) -->
+    <div
+        id="about-stats"
+        class="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] md:grid-cols-4"
+    >
+        {
+            stats.map((stat) => (
+                <div class="flex flex-col items-center gap-1 px-4 py-8 text-center">
+                    <span class="text-4xl font-bold text-white">
+                        {stat.target !== undefined ? (
+                            <span
+                                class="stat-num"
+                                data-target={stat.target}
+                                data-suffix={stat.suffix ?? ""}
+                            >
+                                {stat.target}
+                                {stat.suffix ?? ""}
+                            </span>
+                        ) : (
+                            stat.text
+                        )}
+                    </span>
+                    <span class="text-sm text-[#9A9AA4]">{stat.label}</span>
+                </div>
+            ))
+        }
+    </div>
 </section>
+
+<script is:inline>
+    (() => {
+        const band = document.getElementById("about-stats");
+        if (!band) return;
+        const nums = band.querySelectorAll(".stat-num");
+        const reduce = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (reduce) return; // deja los valores finales sin animar
+
+        // Reinicia a 0 (la sección está fuera de pantalla al cargar)
+        nums.forEach((el) => {
+            el.textContent = "0" + (el.dataset.suffix || "");
+        });
+
+        const animate = (el) => {
+            const target = parseInt(el.dataset.target, 10);
+            const suffix = el.dataset.suffix || "";
+            const duration = 1200;
+            const start = performance.now();
+            const tick = (now) => {
+                const p = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+                el.textContent = Math.round(eased * target) + suffix;
+                if (p < 1) requestAnimationFrame(tick);
+                else el.textContent = target + suffix;
+            };
+            requestAnimationFrame(tick);
+        };
+
+        const io = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((e) => {
+                    if (e.isIntersecting) {
+                        nums.forEach(animate);
+                        io.disconnect();
+                    }
+                });
+            },
+            { threshold: 0.4 },
+        );
+        io.observe(band);
+    })();
+</script>
