@@ -62,7 +62,7 @@ import Logo from "../components/icons/Logo.astro";
                 aria-expanded="false"
                 aria-controls="mobile-menu"
                 class="text-[#D0D0D4] focus:outline-none hover:text-[#00FFC4] transition-all duration-300"
-                onclick="const m=document.getElementById('mobile-menu');const closed=m.classList.toggle('hidden');this.setAttribute('aria-expanded', String(!closed));"
+                onclick="window.toggleMobileMenu()"
             >
                 <!-- Icono de hamburguesa -->
                 <svg
@@ -91,7 +91,7 @@ import Logo from "../components/icons/Logo.astro";
             <li>
                 <a
                     href="#hero"
-                    onclick="document.getElementById('mobile-menu').classList.add('hidden')"
+                    onclick="window.closeMobileMenu()"
                     class="block rounded-xl px-4 py-3 text-lg text-[#D0D0D4] hover:bg-white/5 hover:text-[#00FFC4] transition-colors duration-200"
                     >Inicio</a
                 >
@@ -99,7 +99,7 @@ import Logo from "../components/icons/Logo.astro";
             <li>
                 <a
                     href="#services"
-                    onclick="document.getElementById('mobile-menu').classList.add('hidden')"
+                    onclick="window.closeMobileMenu()"
                     class="block rounded-xl px-4 py-3 text-lg text-[#D0D0D4] hover:bg-white/5 hover:text-[#00FFC4] transition-colors duration-200"
                     >Servicios</a
                 >
@@ -107,7 +107,7 @@ import Logo from "../components/icons/Logo.astro";
             <li>
                 <a
                     href="#proyectos"
-                    onclick="document.getElementById('mobile-menu').classList.add('hidden')"
+                    onclick="window.closeMobileMenu()"
                     class="block rounded-xl px-4 py-3 text-lg text-[#D0D0D4] hover:bg-white/5 hover:text-[#00FFC4] transition-colors duration-200"
                     >Proyectos</a
                 >
@@ -115,7 +115,7 @@ import Logo from "../components/icons/Logo.astro";
             <li>
                 <a
                     href="#plans"
-                    onclick="document.getElementById('mobile-menu').classList.add('hidden')"
+                    onclick="window.closeMobileMenu()"
                     class="block rounded-xl px-4 py-3 text-lg text-[#D0D0D4] hover:bg-white/5 hover:text-[#00FFC4] transition-colors duration-200"
                     >Planes</a
                 >
@@ -123,7 +123,7 @@ import Logo from "../components/icons/Logo.astro";
             <li>
                 <a
                     href="#about"
-                    onclick="document.getElementById('mobile-menu').classList.add('hidden')"
+                    onclick="window.closeMobileMenu()"
                     class="block rounded-xl px-4 py-3 text-lg text-[#D0D0D4] hover:bg-white/5 hover:text-[#00FFC4] transition-colors duration-200"
                     >Sobre Nosotros</a
                 >
@@ -131,7 +131,7 @@ import Logo from "../components/icons/Logo.astro";
             <li>
                 <a
                     href="#contact"
-                    onclick="document.getElementById('mobile-menu').classList.add('hidden')"
+                    onclick="window.closeMobileMenu()"
                     class="block rounded-xl px-4 py-3 text-lg text-[#D0D0D4] hover:bg-white/5 hover:text-[#00FFC4] transition-colors duration-200"
                     >Contacto</a
                 >
@@ -143,12 +143,48 @@ import Logo from "../components/icons/Logo.astro";
 <script is:inline>
     (() => {
         const nav = document.getElementById("navbar");
-        if (!nav) return;
-        const onScroll = () => {
-            nav.classList.toggle("nav-scrolled", window.scrollY > 24);
+        if (nav) {
+            const onScroll = () => {
+                nav.classList.toggle("nav-scrolled", window.scrollY > 24);
+            };
+            window.addEventListener("scroll", onScroll, { passive: true });
+            onScroll();
+        }
+
+        // Menú móvil con animación de apertura y cierre
+        const menu = document.getElementById("mobile-menu");
+        const btn = document.getElementById("menu-toggle");
+        const reduce = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        let closeTimer;
+        window.openMobileMenu = () => {
+            if (!menu) return;
+            clearTimeout(closeTimer);
+            menu.classList.remove("hidden", "menu-closing");
+            btn?.setAttribute("aria-expanded", "true");
         };
-        window.addEventListener("scroll", onScroll, { passive: true });
-        onScroll();
+        window.closeMobileMenu = () => {
+            if (!menu || menu.classList.contains("hidden")) return;
+            btn?.setAttribute("aria-expanded", "false");
+            if (reduce) {
+                menu.classList.add("hidden");
+                return;
+            }
+            menu.classList.add("menu-closing");
+            clearTimeout(closeTimer);
+            closeTimer = setTimeout(() => {
+                menu.classList.add("hidden");
+                menu.classList.remove("menu-closing");
+            }, 220);
+        };
+        window.toggleMobileMenu = () => {
+            if (!menu) return;
+            menu.classList.contains("hidden")
+                ? window.openMobileMenu()
+                : window.closeMobileMenu();
+        };
     })();
 </script>
 
@@ -164,7 +200,7 @@ import Logo from "../components/icons/Logo.astro";
         backdrop-filter: blur(16px) saturate(140%);
     }
 
-    /* Animación de apertura del menú móvil (se dispara al pasar de display:none a visible) */
+    /* Animación de apertura/cierre del menú móvil */
     @keyframes menuIn {
         from {
             opacity: 0;
@@ -175,14 +211,27 @@ import Logo from "../components/icons/Logo.astro";
             transform: translateY(0) scale(1);
         }
     }
+    @keyframes menuOut {
+        from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-8px) scale(0.98);
+        }
+    }
     #mobile-menu {
         transform-origin: top center;
     }
-    #mobile-menu:not(.hidden) {
+    #mobile-menu:not(.hidden):not(.menu-closing) {
         animation: menuIn 0.25s ease-out;
     }
+    #mobile-menu.menu-closing {
+        animation: menuOut 0.2s ease-in forwards;
+    }
     @media (prefers-reduced-motion: reduce) {
-        #mobile-menu:not(.hidden) {
+        #mobile-menu:not(.hidden):not(.menu-closing) {
             animation: none;
         }
     }
