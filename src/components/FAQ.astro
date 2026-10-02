@@ -43,7 +43,7 @@ const faqLd = {
     class="w-full max-w-3xl mx-auto px-6 md:px-4 py-22 md:py-30"
 >
     <div class="text-center">
-        <h2 id="faq-title" class="text-5xl font-semibold text-white">
+        <h2 id="faq-title" data-split class="text-5xl font-semibold text-white">
             Preguntas frecuentes
         </h2>
         <p class="mt-3 text-xl text-[#9A9AA4]">
@@ -54,14 +54,14 @@ const faqLd = {
     <div class="mt-12 divide-y divide-white/10 border-y border-white/10">
         {
             faqs.map((faq) => (
-                <details class="group">
+                <details data-reveal class="group">
                     <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-medium text-white transition-colors hover:text-[#00FFC4] [&::-webkit-details-marker]:hidden">
                         {faq.q}
-                        <span class="shrink-0 text-2xl font-light text-[#00FFC4] transition-transform duration-300 group-open:rotate-45">
+                        <span class="shrink-0 text-2xl font-light text-[#00FFC4] transition-transform duration-500 ease-out group-open:rotate-[135deg]">
                             +
                         </span>
                     </summary>
-                    <p class="pb-5 pr-8 text-[#9A9AA4] leading-relaxed">
+                    <p class="overflow-hidden pb-5 pr-8 text-[#9A9AA4] leading-relaxed">
                         {faq.a}
                     </p>
                 </details>

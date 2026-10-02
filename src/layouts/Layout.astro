@@ -98,6 +98,10 @@ const jsonLd = {
 
 		<!-- Grano fino sobre todo el sitio -->
 		<div class="grain" aria-hidden="true"></div>
+
+		<script>
+			import "../scripts/motion.js";
+		</script>
 	</body>
 </html>
 
@@ -121,6 +125,20 @@ const jsonLd = {
 		z-index: -1;
 		overflow: hidden;
 		pointer-events: none;
+	}
+
+	/* Palabras partidas por el script: la máscara deja que entren desde abajo. */
+	:global(.word) {
+		display: inline-block;
+		overflow: hidden;
+		padding-bottom: 0.12em;
+		margin-bottom: -0.12em;
+		vertical-align: bottom;
+	}
+
+	:global(.word-inner) {
+		display: inline-block;
+		will-change: transform;
 	}
 
 	.grain {
