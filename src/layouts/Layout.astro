@@ -120,7 +120,9 @@ const jsonLd = {
 	}
 
 	.bg-glows {
-		position: absolute;
+		/* Fijos al viewport: anclados al alto de la página se movían cada vez
+		   que el contenido cambiaba de alto y Lighthouse lo contaba como salto */
+		position: fixed;
 		inset: 0;
 		z-index: -1;
 		overflow: hidden;

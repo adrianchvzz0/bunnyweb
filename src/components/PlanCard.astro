@@ -41,18 +41,18 @@ const {
             )
         }
 
-        <p class="text-sm text-[#9A9AA4]">{name}</p>
+        <p class="text-sm text-[#B4B4BC]">{name}</p>
 
         <p class="mt-4 flex items-baseline gap-2">
             <span class="text-4xl font-semibold tracking-tight text-white md:text-[2.6rem]"
                 >{price}</span
             >
             {price.startsWith("$") && (
-                <span class="text-base text-[#64656C]">/ único</span>
+                <span class="text-base text-[#8A8A94]">/ único</span>
             )}
         </p>
 
-        <p class="mt-3 text-sm text-[#9A9AA4]">{descriptor}</p>
+        <p class="mt-3 text-sm text-[#B4B4BC]">{descriptor}</p>
     </div>
 
     <div class="h-px w-full bg-white/10"></div>
@@ -61,7 +61,7 @@ const {
     <ul class="flex-1 space-y-4 p-8 pt-7">
         {
             features.map((feature) => (
-                <li class="flex items-start gap-3.5 text-sm text-[#9A9AA4]">
+                <li class="flex items-start gap-3.5 text-sm text-[#B4B4BC]">
                     <span
                         class:list={[
                             "mt-px grid size-6 shrink-0 place-items-center rounded-full text-[11px]",
