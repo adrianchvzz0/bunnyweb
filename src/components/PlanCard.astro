@@ -12,51 +12,84 @@ const {
 <div
     data-reveal
     class:list={[
-        "relative flex h-full flex-col rounded-3xl bg-white/[0.02] p-8 transition-all duration-300",
+        "group relative flex h-full flex-col overflow-hidden rounded-[28px] backdrop-blur-[10px] transition-all duration-500",
+        "bg-gradient-to-b from-white/[0.07] to-white/[0.02]",
         popular
-            ? "border-2 border-[#00FFC4]/60 shadow-[0_20px_60px_-25px_rgba(0,255,196,0.45)]"
-            : "border border-[#64656C]/60 hover:-translate-y-1 hover:border-[#00FFC4]/40",
+            ? "border border-[#00FFC4]/35 shadow-[0_30px_80px_-40px_rgba(0,255,196,0.5)]"
+            : "border border-white/10 shadow-[0_30px_80px_-45px_rgba(0,0,0,0.9)] hover:-translate-y-1 hover:border-white/20",
     ]}
 >
-    {
-        popular && (
-            <span class="absolute -top-3 left-8 rounded-full bg-[#00FFC4] px-3 py-1 text-xs font-bold text-[#0d0f19]">
-                Más popular
-            </span>
-        )
-    }
-
-    <h3 class="text-xl font-semibold text-white">{name}</h3>
-    <p class="mt-1 text-sm text-[#9A9AA4]">{descriptor}</p>
-
-    <div class="mt-5 flex items-baseline gap-1.5">
-        <span class="text-4xl font-bold text-white">{price}</span>
-        <span class="text-sm text-[#9A9AA4]">/ pago único</span>
-    </div>
-
-    <a
-        href="#contact"
-        onclick={`window.selectPlan && window.selectPlan('${quote}')`}
+    <!-- Halo que se difumina a través del vidrio de la tarjeta -->
+    <div
+        aria-hidden="true"
         class:list={[
-            "mt-6 w-full rounded-full py-3 text-center font-semibold transition-all duration-300",
+            "pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full blur-[60px] transition-opacity duration-500",
             popular
-                ? "bg-[#00FFC4] text-[#0d0f19] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.5)]"
-                : "border border-[#64656C] text-white hover:border-[#00FFC4] hover:bg-white/5 hover:text-[#00FFC4]",
+                ? "bg-[#00FFC4]/25 opacity-100"
+                : "bg-white/10 opacity-70 group-hover:opacity-100",
         ]}
     >
-        Elegir plan
-    </a>
+    </div>
 
-    <div class="my-6 h-px bg-white/10"></div>
+    <!-- Encabezado: nombre y precio grande, como en la referencia -->
+    <div class="relative p-8 pb-7">
+        {
+            popular && (
+                <span class="absolute right-7 top-8 rounded-full bg-[#00FFC4] px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#0d0f19]">
+                    Más elegido
+                </span>
+            )
+        }
 
-    <ul class="space-y-3">
+        <p class="text-sm text-[#9A9AA4]">{name}</p>
+
+        <p class="mt-4 flex items-baseline gap-2">
+            <span class="text-4xl font-semibold tracking-tight text-white md:text-[2.6rem]"
+                >{price}</span
+            >
+            {price.startsWith("$") && (
+                <span class="text-base text-[#64656C]">/ único</span>
+            )}
+        </p>
+
+        <p class="mt-3 text-sm text-[#9A9AA4]">{descriptor}</p>
+    </div>
+
+    <div class="h-px w-full bg-white/10"></div>
+
+    <!-- Lista con palomita en círculo -->
+    <ul class="flex-1 space-y-4 p-8 pt-7">
         {
             features.map((feature) => (
-                <li class="flex items-start gap-3 text-[#9A9AA4]">
-                    <span class="mt-0.5 text-[#00FFC4]">✓</span>
+                <li class="flex items-start gap-3.5 text-sm text-[#9A9AA4]">
+                    <span
+                        class:list={[
+                            "mt-px grid size-6 shrink-0 place-items-center rounded-full text-[11px]",
+                            popular
+                                ? "bg-[#00FFC4]/15 text-[#00FFC4]"
+                                : "bg-white/[0.06] text-white/70",
+                        ]}
+                    >
+                        ✓
+                    </span>
                     <span>{feature}</span>
                 </li>
             ))
         }
     </ul>
+
+    <div class="p-8 pt-0">
+        <a
+            href="#contact"
+            onclick={`window.selectPlan && window.selectPlan('${quote}')`}
+            class:list={[
+                "block w-full rounded-full py-3.5 text-center text-sm font-semibold transition-all duration-300",
+                popular
+                    ? "bg-[#00FFC4] text-[#0d0f19] hover:-translate-y-0.5 hover:shadow-[0_12px_34px_-10px_rgba(0,255,196,0.6)]"
+                    : "border border-white/15 bg-white/[0.04] text-white hover:border-[#00FFC4]/50 hover:text-[#00FFC4]",
+            ]}
+        >
+            Elegir plan
+        </a>
+    </div>
 </div>

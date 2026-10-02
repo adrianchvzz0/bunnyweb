@@ -31,6 +31,20 @@ const landingPlans = [
             "Estadísticas básicas",
         ],
     },
+    {
+        name: "Landing a la Medida",
+        descriptor: "Cuando el proyecto no cabe en un plan.",
+        price: "Cotización",
+        popular: false,
+        quote: "Landing a la Medida",
+        features: [
+            "Páginas y secciones sin límite",
+            "Animaciones y 3D a la medida",
+            "Blog o gestor de contenido",
+            "Integraciones (CRM, agenda, pagos)",
+            "Acompañamiento después del lanzamiento",
+        ],
+    },
 ];
 
 const ecommercePlans = [
@@ -65,26 +79,74 @@ const ecommercePlans = [
             "Estadísticas detalladas",
         ],
     },
+    {
+        name: "Tienda a la Medida",
+        descriptor: "Para operaciones con reglas propias.",
+        price: "Cotización",
+        popular: false,
+        quote: "Tienda a la Medida",
+        features: [
+            "Catálogo con variantes complejas",
+            "Envíos, facturación e inventario conectados",
+            "Cuentas de cliente y pedidos recurrentes",
+            "Integración con tu ERP o punto de venta",
+            "Soporte y mejoras continuas",
+        ],
+    },
 ];
 ---
 
 <section
     id="plans"
     aria-labelledby="plans-title"
-    class="w-full max-w-5xl mx-auto px-6 md:px-4 py-30"
+    class="w-full max-w-6xl mx-auto px-6 md:px-4 py-30"
 >
-    <div class="text-center">
-        <h2 id="plans-title" data-split class="text-5xl font-semibold text-white">Planes</h2>
-        <p class="mt-3 text-xl text-[#9A9AA4]">
-            El plan <span class="text-[#00FFC4]">perfecto</span> para ti. Todos incluyen
-            personalización y cotización gratis.
-        </p>
+    <!-- Título gigante al fondo: las tarjetas lo tapan a la mitad -->
+    <div class="relative">
+        <h2
+            id="plans-title"
+            data-split
+            class="pointer-events-none absolute inset-x-0 top-0 select-none text-center text-[clamp(4.5rem,15vw,11rem)] font-semibold leading-[0.85] tracking-tight text-white"
+        >
+            Precios
+        </h2>
+
+        <!-- Luces que se difuminan a través del vidrio de las tarjetas -->
+        <div aria-hidden="true" class="pointer-events-none absolute inset-0">
+            <div
+                class="absolute left-[18%] top-[18%] h-64 w-64 rounded-full bg-[#00FFC4]/15 blur-[90px]"
+            >
+            </div>
+            <div
+                class="absolute right-[14%] top-[30%] h-72 w-72 rounded-full bg-white/[0.07] blur-[100px]"
+            >
+            </div>
+        </div>
+
+        <!-- El relleno superior deja la mitad inferior del título detrás del vidrio -->
+        <div
+            id="landing-plans"
+            class="relative z-10 mx-auto max-w-6xl pt-[clamp(3.5rem,7.5vw,5.75rem)]"
+        >
+            <div class="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3">
+                {landingPlans.map((plan) => <PlanCard {...plan} />)}
+            </div>
+        </div>
+
+        <div
+            id="ecommerce-plans"
+            class="relative z-10 mx-auto hidden max-w-6xl pt-[clamp(3.5rem,7.5vw,5.75rem)]"
+        >
+            <div class="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3">
+                {ecommercePlans.map((plan) => <PlanCard {...plan} />)}
+            </div>
+        </div>
     </div>
 
-    <!-- Control segmentado -->
-    <div class="mt-10 flex justify-center">
+    <!-- Control segmentado: debajo de las tarjetas, como en la referencia -->
+    <div class="relative z-10 mt-10 flex flex-col items-center gap-3">
         <div
-            class="inline-flex rounded-full border border-[#64656C]/60 bg-white/[0.03] p-1"
+            class="inline-flex rounded-full border border-white/10 bg-white/[0.04] p-1 backdrop-blur-xl"
             role="tablist"
         >
             <button
@@ -106,20 +168,10 @@ const ecommercePlans = [
                 E-commerce
             </button>
         </div>
-    </div>
 
-    <!-- Planes Landing -->
-    <div id="landing-plans" class="mt-14 max-w-4xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-            {landingPlans.map((plan) => <PlanCard {...plan} />)}
-        </div>
-    </div>
-
-    <!-- Planes E-commerce -->
-    <div id="ecommerce-plans" class="hidden mt-14 max-w-4xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-            {ecommercePlans.map((plan) => <PlanCard {...plan} />)}
-        </div>
+        <p class="text-sm text-[#64656C]">
+            Todos incluyen diseño a la medida y cotización gratis.
+        </p>
     </div>
 </section>
 
