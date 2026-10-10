@@ -1,0 +1,62 @@
+---
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+import SectorPage from "../components/SectorPage.astro";
+import { WA } from "../lib/whatsapp";
+---
+
+<Layout
+    title="Páginas web para clínicas y consultorios en Monterrey | BunnyWeb"
+    description="Sitio web para tu clínica o consultorio con agenda en línea, tratamientos y WhatsApp directo. Mira el sitio de muestra y pídelo con tu nombre."
+    path="/clinicas/"
+    whatsapp={WA.clinicas}
+>
+    <SectorPage
+        eyebrow="Clínicas y consultorios"
+        title="Más citas,"
+        accent="menos llamadas."
+        intro="Una página donde tus pacientes vean tus tratamientos, confíen en ti y agenden solos. Tú recibes la cita en WhatsApp sin contestar el teléfono todo el día."
+        whatsapp={WA.clinicas}
+        demoUrl="https://sana-clinica-demo.netlify.app"
+        demoImg="/images/proyecto5.webp"
+        demoLabel="sana-clinica-demo.netlify.app"
+        benefits={[
+            {
+                title: "Agenda sin llamadas",
+                text: "El paciente elige especialidad, fecha y horario, y la solicitud te llega a WhatsApp lista para confirmar.",
+            },
+            {
+                title: "Apareces en Google",
+                text: "Quien busca “dentista en San Pedro” te encuentra a ti, no al de la cuadra de enfrente.",
+            },
+            {
+                title: "Confianza antes de llegar",
+                text: "Equipo médico, tratamientos y reseñas en un sitio que se ve tan profesional como tu consultorio.",
+            },
+        ]}
+        includes={[
+            "Diseño a la medida con tu identidad",
+            "Agenda de citas conectada a WhatsApp",
+            "Sección de tratamientos y precios",
+            "Perfiles de tu equipo médico",
+            "Reseñas de Google integradas",
+            "Optimizada para celular y Google",
+        ]}
+        price="Desde $6,000"
+        priceNote="Pago único. En línea en 2 a 3 semanas. Mantenimiento opcional."
+        faqs={[
+            {
+                q: "¿Puedo manejar la agenda yo mismo?",
+                a: "Sí. Las solicitudes llegan a tu WhatsApp y tú confirmas. Si quieres agenda automática con calendario, se cotiza como sistema a la medida.",
+            },
+            {
+                q: "¿Necesito tener fotos y textos listos?",
+                a: "Ayuda, pero no es obligatorio. Partimos del sitio de muestra y lo adaptamos con lo que tengas; el resto lo redactamos juntos.",
+            },
+            {
+                q: "¿Cuánto tarda?",
+                a: "Entre 2 y 3 semanas desde que aprobamos la propuesta. El demo con tu nombre lo tienes en días.",
+            },
+        ]}
+    />
+</Layout>

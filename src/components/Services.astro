@@ -1,6 +1,8 @@
 ---
 import LandingIcon from "../components/icons/LandingIcon.astro";
 import ShopIcon from "../components/icons/ShopIcon.astro";
+import SystemIcon from "../components/icons/SystemIcon.astro";
+import { WA } from "../lib/whatsapp";
 
 const services = [
     {
@@ -27,10 +29,23 @@ const services = [
         ],
         quote: "E-commerce",
     },
+    {
+        icon: SystemIcon,
+        title: "Sistemas a la medida",
+        tagline: "Lo que tu operación necesita y ningún software de caja resuelve.",
+        features: [
+            "Agenda de citas y reservas en línea",
+            "Cotizadores y portales de clientes",
+            "Control de inventario y pedidos",
+            "Bots de WhatsApp e integraciones con tu CRM",
+        ],
+        quote: "Sistemas a la medida",
+    },
 ];
 ---
 
 <section
+    data-theme-section="dark"
     id="services"
     aria-labelledby="services-title"
     class="w-full max-w-5xl mx-auto px-6 md:px-4 py-22 md:py-30"
@@ -46,7 +61,7 @@ const services = [
         </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 items-stretch">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 items-stretch">
         {
             services.map((service) => {
                 const Icon = service.icon;
@@ -75,11 +90,12 @@ const services = [
                         </ul>
 
                         <a
-                            href="#contact"
-                            onclick={`window.selectPlan && window.selectPlan('${service.quote}')`}
+                            href={WA.servicio(service.quote)}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             class="group/link mt-auto inline-flex w-fit items-center gap-2 pt-7 font-medium text-[#00FFC4]"
                         >
-                            Cotizar este servicio
+                            Cotizar por WhatsApp
                             <span class="transition-transform duration-300 group-hover/link:translate-x-1">
                                 →
                             </span>

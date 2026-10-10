@@ -1,0 +1,191 @@
+---
+/**
+ * Plantilla de página por rubro (clínicas, ópticas…).
+ *
+ * Recibe todo por props para que cada rubro sea solo datos: titular, demo,
+ * beneficios, qué incluye, precio de arranque, preguntas y el mensaje de
+ * WhatsApp con el contexto del rubro.
+ */
+import WhatsappIcon from "./icons/WhatsappIcon.astro";
+
+interface Faq {
+    q: string;
+    a: string;
+}
+
+interface Props {
+    eyebrow: string;
+    title: string;
+    accent: string;
+    intro: string;
+    whatsapp: string;
+    demoUrl: string;
+    demoImg: string;
+    demoLabel: string;
+    benefits: { title: string; text: string }[];
+    includes: string[];
+    price: string;
+    priceNote: string;
+    faqs: Faq[];
+}
+
+const {
+    eyebrow,
+    title,
+    accent,
+    intro,
+    whatsapp,
+    demoUrl,
+    demoImg,
+    demoLabel,
+    benefits,
+    includes,
+    price,
+    priceNote,
+    faqs,
+} = Astro.props;
+---
+
+<!-- Hero -->
+<section class="relative overflow-hidden px-6 pt-36 pb-16 text-center">
+    <div
+        class="pointer-events-none absolute left-1/2 top-0 h-[480px] w-[720px] -translate-x-1/2 rounded-full bg-[#00FFC4]/[0.07] blur-[140px]"
+        aria-hidden="true"
+    >
+    </div>
+    <div class="relative mx-auto max-w-3xl">
+        <p class="text-sm font-medium uppercase tracking-[0.2em] text-[#00FFC4]">{eyebrow}</p>
+        <h1 class="mt-5 text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]">
+            {title} <span class="text-[#00FFC4]">{accent}</span>
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-lg text-[#9A9AA4] text-balance">{intro}</p>
+        <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+                href={whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-magnetic="0.3"
+                class="flex items-center justify-center gap-2 rounded-full bg-[#00FFC4] px-6 py-3 text-sm font-semibold text-[#0d0f19] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.55)]"
+            >
+                <WhatsappIcon class="h-5 w-5 [&_path]:stroke-[#0d0f19]" />
+                Quiero verla con mi nombre
+            </a>
+            <a
+                href={demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="rounded-full border border-[#64656C] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#00FFC4] hover:text-[#00FFC4]"
+            >
+                Ver el sitio de muestra ↗
+            </a>
+        </div>
+    </div>
+
+    <!-- Demo en marco de navegador -->
+    <a
+        href={demoUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-reveal
+        class="group relative mx-auto mt-14 block w-full max-w-4xl"
+    >
+        <div class="overflow-hidden rounded-2xl border border-white/10 bg-[#0d0f19] shadow-2xl shadow-black/50">
+            <div class="flex items-center gap-2 border-b border-white/10 bg-white/[0.03] px-4 py-3">
+                <span class="h-3 w-3 rounded-full bg-[#ff5f57]"></span>
+                <span class="h-3 w-3 rounded-full bg-[#febc2e]"></span>
+                <span class="h-3 w-3 rounded-full bg-[#28c840]"></span>
+                <span class="mx-auto hidden rounded-md bg-white/5 px-4 py-1 text-xs text-[#7B7C85] sm:block">{demoLabel}</span>
+            </div>
+            <div class="max-h-[420px] overflow-hidden">
+                <img
+                    src={demoImg}
+                    alt={`Sitio de muestra: ${demoLabel}`}
+                    class="w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                />
+            </div>
+        </div>
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0d0f19] to-transparent"></div>
+    </a>
+</section>
+
+<!-- Beneficios -->
+<section class="mx-auto w-full max-w-5xl px-6 py-16 md:px-4 md:py-24">
+    <h2 data-split class="text-center text-4xl font-semibold text-white md:text-5xl">Lo que cambia con tu página</h2>
+    <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+        {
+            benefits.map((b, i) => (
+                <div data-reveal class="rounded-3xl border border-[#64656C]/60 bg-white/[0.02] p-7">
+                    <span class="text-sm font-semibold text-[#00FFC4]">0{i + 1}</span>
+                    <h3 class="mt-3 text-xl font-semibold text-white">{b.title}</h3>
+                    <p class="mt-2 text-[#9A9AA4]">{b.text}</p>
+                </div>
+            ))
+        }
+    </div>
+</section>
+
+<!-- Qué incluye + precio -->
+<section class="mx-auto w-full max-w-5xl px-6 py-8 md:px-4 md:py-12">
+    <div data-reveal class="grid gap-8 rounded-3xl border border-[#00FFC4]/30 bg-white/[0.02] p-8 md:grid-cols-[1.4fr_1fr] md:p-10">
+        <div>
+            <h2 class="text-3xl font-semibold text-white">Qué incluye</h2>
+            <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+                {
+                    includes.map((item) => (
+                        <li class="flex items-start gap-3 text-[#D0D0D4]">
+                            <span class="mt-0.5 text-[#00FFC4]">✓</span>
+                            {item}
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+        <div class="flex flex-col justify-between rounded-2xl bg-[#00FFC4]/[0.06] p-6">
+            <div>
+                <p class="text-sm text-[#9A9AA4]">Inversión</p>
+                <p class="mt-2 text-4xl font-bold text-white">{price}</p>
+                <p class="mt-2 text-sm text-[#9A9AA4]">{priceNote}</p>
+            </div>
+            <a
+                href={whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-6 block rounded-full bg-[#00FFC4] py-3 text-center text-sm font-semibold text-[#0d0f19] transition-all duration-300 hover:-translate-y-0.5"
+            >
+                Cotizar por WhatsApp
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Preguntas -->
+<section class="mx-auto w-full max-w-3xl px-6 py-16 md:px-4 md:py-24">
+    <h2 data-split class="text-center text-4xl font-semibold text-white">Preguntas frecuentes</h2>
+    <div class="mt-10 divide-y divide-white/10 border-y border-white/10">
+        {
+            faqs.map((faq) => (
+                <details data-reveal class="group">
+                    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-medium text-white transition-colors hover:text-[#00FFC4] [&::-webkit-details-marker]:hidden">
+                        {faq.q}
+                        <span class="shrink-0 text-2xl font-light text-[#00FFC4] transition-transform duration-500 ease-out group-open:rotate-[135deg]">+</span>
+                    </summary>
+                    <p class="overflow-hidden pb-5 pr-8 leading-relaxed text-[#9A9AA4]">{faq.a}</p>
+                </details>
+            ))
+        }
+    </div>
+</section>
+
+<!-- Cierre -->
+<section class="mx-auto w-full max-w-3xl px-6 pb-24 text-center md:px-4">
+    <h2 class="text-3xl font-semibold text-white md:text-4xl">¿La vemos con el nombre de tu negocio?</h2>
+    <p class="mt-4 text-[#9A9AA4]">Te la personalizo sin costo para que decidas viendo algo real, no un boceto.</p>
+    <a
+        href={whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-8 inline-flex items-center gap-2 rounded-full bg-[#00FFC4] px-7 py-3.5 text-sm font-semibold text-[#0d0f19] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.55)]"
+    >
+        Escribir por WhatsApp →
+    </a>
+</section>

@@ -1,14 +1,20 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 // Supports weights 100-900
 import "@fontsource-variable/onest";
 
-const title = "BunnyWeb | Desarrollo y diseño web";
-const description =
-	"En BunnyWeb creamos landing pages y tiendas en línea a medida: diseño moderno, rápido y pensado para vender.";
+// Cada página puede traer su propio título, descripción, ruta y mensaje de WhatsApp.
+const {
+	title = "BunnyWeb | Desarrollo y diseño web",
+	description = "En BunnyWeb creamos landing pages, tiendas en línea y sistemas a la medida: diseño moderno, rápido y pensado para vender.",
+	path = "/",
+	whatsapp,
+} = Astro.props;
 // 👉 Actualiza esta URL si migras a un dominio propio
 const siteUrl = "https://bunnywebstore.netlify.app";
+const pageUrl = `${siteUrl}${path}`;
 const ogImage = `${siteUrl}/og-image.png`;
 
 // Datos estructurados (JSON-LD) para SEO local
@@ -35,6 +41,7 @@ const jsonLd = {
 		"Desarrollo web",
 		"Landing pages",
 		"E-commerce",
+		"Sistemas a la medida",
 	],
 };
 ---
@@ -48,7 +55,7 @@ const jsonLd = {
 
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-		<link rel="canonical" href={siteUrl} />
+		<link rel="canonical" href={pageUrl} />
 		<meta name="description" content={description} />
 		<meta
 			name="keywords"
@@ -58,7 +65,7 @@ const jsonLd = {
 
 		<!-- Open Graph -->
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content={siteUrl} />
+		<meta property="og:url" content={pageUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImage} />
@@ -95,6 +102,7 @@ const jsonLd = {
 			<slot />
 		</main>
 		<Footer />
+		<WhatsAppFloat href={whatsapp} />
 
 		<!-- Grano fino sobre todo el sitio -->
 		<div class="grain" aria-hidden="true"></div>

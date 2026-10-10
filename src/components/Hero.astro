@@ -1,9 +1,11 @@
 ---
 // Hero estilo "producto": titular + CTAs + mockup de un proyecto real + barra de stack.
-const stack = ["Astro", "React", "Next.js", "Tailwind", "Figma"];
+import { WA } from "../lib/whatsapp";
+const sectors = ["Clínicas", "Ópticas", "Desarrolladoras", "Marcas", "Eventos"];
 ---
 
 <section
+    data-theme-section="dark"
     id="hero"
     class="relative flex min-h-screen flex-col items-center overflow-hidden bg-[#0d0f19] px-6 pt-[12.5rem]"
 >
@@ -59,11 +61,13 @@ const stack = ["Astro", "React", "Next.js", "Tailwind", "Figma"];
             style="animation-delay: 570ms"
         >
             <a
-                href="#contact"
+                href={WA.general}
+                target="_blank"
+                rel="noopener noreferrer"
                 data-magnetic="0.3"
                 class="group flex items-center justify-center gap-2 rounded-full bg-[#00FFC4] px-6 py-3 text-sm font-semibold text-[#0d0f19] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.55)]"
             >
-                Cotiza ahora
+                Cotiza por WhatsApp
                 <span
                     class="transition-transform duration-300 group-hover:translate-x-1"
                     >→</span
@@ -120,10 +124,10 @@ const stack = ["Astro", "React", "Next.js", "Tailwind", "Figma"];
         class="hero-anim relative z-10 mb-10 mt-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
         style="animation-delay: 750ms"
     >
-        <span class="text-sm text-[#8A8A94]">Construido con</span>
+        <span class="text-sm text-[#8A8A94]">Hemos trabajado con</span>
         {
-            stack.map((tech) => (
-                <span class="text-sm font-medium text-[#9A9AA4]">{tech}</span>
+            sectors.map((sector) => (
+                <span class="text-sm font-medium text-[#9A9AA4]">{sector}</span>
             ))
         }
     </div>

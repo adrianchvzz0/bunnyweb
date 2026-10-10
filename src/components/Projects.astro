@@ -1,4 +1,9 @@
 ---
+import { WA } from "../lib/whatsapp";
+import WhatsappIcon from "./icons/WhatsappIcon.astro";
+
+const years = { PriorityDental: "2025", Ticketito: "2025", Nova: "2026", Rumbo: "2026", "Sana Centro Médico": "2026", "Ocre 64": "2026", Umbral: "2026" };
+
 const projects = [
     {
         name: "PriorityDental",
@@ -45,53 +50,188 @@ const projects = [
 ];
 ---
 
-<section
-    id="proyectos"
-    aria-labelledby="proyectos-title"
-    class="w-full max-w-5xl mx-auto px-6 md:px-4 py-22 md:py-30"
->
-    <div class="text-center">
-        <h2 id="proyectos-title" data-split class="text-5xl font-semibold text-white">
-            Proyectos
-        </h2>
-        <p class="mt-3 text-xl text-[#9A9AA4]">
-            Algunos de los sitios que hemos llevado a producción.
+
+<!--
+  Carrusel 3D en espiral. En escritorio la sección se ancla y el scroll hace
+  girar una hélice: cada proyecto entra por abajo, gira hasta quedar de frente
+  y sale por arriba mientras llega el siguiente. En celular se apilan en
+  vertical con un zoom lento (Ken Burns) en cada captura.
+-->
+<section id="proyectos" aria-labelledby="proyectos-title" class="relative w-full md:h-screen" data-reel data-theme-section="dark">
+    <!-- Lo que se mueve al aterrizar es este contenedor, nunca la sección anclada -->
+    <div class="reel-inner md:relative md:h-full md:overflow-hidden">
+    <!-- Celular: encabezado normal. El h2 lleva el id que nombra la sección. -->
+    <div class="mx-auto w-full max-w-5xl px-6 pt-22 md:hidden">
+        <h2 id="proyectos-title" data-split class="text-4xl font-semibold text-white">Proyectos</h2>
+        <p class="mt-2 text-lg text-[#9A9AA4]">Siete sitios en producción.</p>
+    </div>
+
+    <!-- Escritorio: el título vive detrás de la espiral, enorme y tenue, y se queda
+         todo el recorrido; el contador es un HUD fijo abajo que nunca se va. -->
+    <p class="reel-bg-title pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 select-none text-center text-[clamp(5rem,13vw,12rem)] font-semibold leading-none tracking-tight text-white/[0.07] md:block" aria-hidden="true">Proyectos</p>
+    <div class="reel-hud absolute inset-x-0 bottom-7 z-20 hidden grid-cols-3 items-center px-10 text-sm text-[#9A9AA4] md:grid lg:px-14" aria-hidden="true">
+        <p class="flex items-center gap-3">
+            <span class="reel-counter font-medium tabular-nums text-white">01</span>
+            <span class="h-px w-28 overflow-hidden rounded bg-white/15"><span class="reel-progress block h-full w-full origin-left scale-x-0 bg-[#00FFC4]"></span></span>
+            <span class="tabular-nums">0{projects.length}</span>
+        </p>
+        <p class="reel-hint flex items-center justify-center gap-2">
+            Desplázate para recorrerlos
+            <span class="reel-hint-arrow inline-block">↓</span>
         </p>
     </div>
 
-    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {
-            projects.map((project, index) => (
-                <a
-                    data-reveal
-                    style={`--reveal-delay:${(index % 2) * 0.08}s`}
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="group relative block overflow-hidden rounded-2xl border border-white/10 transition-all duration-300 hover:border-[#00FFC4]/50 hover:shadow-[0_0_40px_-8px_rgba(0,255,196,0.35)]"
-                >
-                    <img
-                        src={project.img}
-                        alt={`Proyecto ${project.name} por BunnyWeb`}
-                        loading="lazy"
-                        class="aspect-[16/10] w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                    />
-                    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0d0f19] via-[#0d0f19]/30 to-transparent opacity-85 transition-opacity duration-300 group-hover:opacity-95" />
-                    <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
-                        <div>
-                            <p class="text-xs font-medium uppercase tracking-[0.2em] text-[#00FFC4]">
-                                {project.tag}
-                            </p>
-                            <h3 class="mt-1 text-xl font-bold text-white">
-                                {project.name}
-                            </h3>
+    <!-- Escenario 3D: en escritorio las tarjetas se posicionan desde motion.js -->
+    <div class="reel-stage mt-10 px-6 md:absolute md:inset-0 md:mt-0 md:px-0">
+        <div class="reel-track flex flex-col gap-12 pt-6 md:relative md:h-full md:w-full md:gap-0 md:pt-0">
+            {
+                projects.map((project, i) => (
+                    <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="reel-panel folder group relative block aspect-[4/3] md:absolute md:left-1/2 md:top-1/2 md:aspect-[16/10] md:w-[clamp(380px,36vw,620px)]"
+                        data-index={i + 1}
+                    >
+                        <!-- Marco de la carpeta -->
+                        <div class="folder-frame absolute inset-0 rounded-3xl border border-white/[0.14] bg-[#13151e]"></div>
+                        <!-- La hoja: al enfocar sobresale por arriba, ligeramente inclinada -->
+                        <img
+                            src={project.img}
+                            alt={`Proyecto ${project.name} por BunnyWeb`}
+                            loading="lazy"
+                            class="reel-img absolute inset-1.5 h-[calc(100%-0.75rem)] w-[calc(100%-0.75rem)] origin-bottom rounded-[18px] object-cover object-top shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.7)] transition-[scale] duration-700 ease-out group-hover:scale-[1.03]"
+                        />
+                        <!-- Solapa frontal esmerilada con pestaña curva a la izquierda -->
+                        <div class="folder-front absolute inset-x-0 bottom-0 h-[calc(54%+2.75rem)] md:h-[calc(54%+3rem)]">
+                            <!-- Esmerilado "real": copia de la captura desenfocada, alineada con la de
+                                 atrás y recortada por la silueta. backdrop-filter ignoraba el clip-path. -->
+                            <img
+                                src={project.img}
+                                alt=""
+                                aria-hidden="true"
+                                loading="lazy"
+                                class="folder-blur pointer-events-none absolute inset-x-1.5 bottom-1.5 aspect-[4/3] w-[calc(100%-0.75rem)] origin-bottom object-cover object-top md:aspect-[16/10]"
+                            />
+                            <div class="folder-tint absolute inset-0"></div>
+                            <div class="relative flex h-full flex-col justify-between p-5 md:p-6">
+                                <div class="min-w-0 pr-[52%]">
+                                    <h3 class="reel-title truncate text-lg font-semibold leading-tight text-white md:text-xl">{project.name}</h3>
+                                    <p class="reel-tag mt-0.5 truncate text-sm text-[#9A9AA4]">{project.tag}</p>
+                                </div>
+                                <div class="flex items-end justify-between gap-4">
+                                    <p class="flex items-baseline gap-1.5 text-white">
+                                        <span class="text-3xl font-bold leading-none tabular-nums md:text-4xl">0{i + 1}</span>
+                                        <span class="text-sm text-[#9A9AA4]">{years[project.name] ?? ""}</span>
+                                    </p>
+                                    <span class="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm text-white transition-all duration-300 group-hover:border-[#00FFC4]/50 group-hover:text-[#00FFC4]">
+                                        Ver proyecto ↗
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <span class="translate-y-2 whitespace-nowrap rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm text-white opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                            Ver proyecto ↗
-                        </span>
+                    </a>
+                ))
+            }
+            <!-- Cierre: una carpeta más de la espiral, el recorrido termina en una acción -->
+            <div class="reel-panel reel-cta folder group relative aspect-[4/3] md:absolute md:left-1/2 md:top-1/2 md:aspect-[16/10] md:w-[clamp(380px,36vw,620px)]">
+                <div class="folder-frame folder-glass absolute inset-0 overflow-hidden rounded-3xl border border-[#00FFC4]/25 bg-white/[0.04] backdrop-blur-[10px]" aria-hidden="true">
+                    <div class="folder-dim pointer-events-none absolute inset-0 bg-[#0d0f19] opacity-0"></div>
+                    <div class="absolute left-1/2 top-[30%] h-[80%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00FFC4]/[0.12] blur-[70px]"></div>
+                    <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"></div>
+                </div>
+                <p class="reel-lift absolute inset-x-0 top-[7%] text-center text-[clamp(1.35rem,2.3vw,2rem)] font-bold leading-tight text-white">¿El siguiente<br />es el tuyo?</p>
+                <div class="folder-front absolute inset-x-0 bottom-0 h-[calc(54%+2.75rem)] md:h-[calc(54%+3rem)]">
+                    <div class="folder-tint absolute inset-0"></div>
+                    <div class="relative flex h-full flex-col justify-between p-5 md:p-6">
+                        <div class="min-w-0 pr-[52%]">
+                            <h3 class="reel-title truncate text-lg font-semibold leading-tight text-white md:text-xl">Tu proyecto</h3>
+                            <p class="reel-tag mt-0.5 truncate text-sm text-[#9A9AA4]">Propuesta real, no un boceto</p>
+                        </div>
+                        <div class="flex items-end justify-between gap-4">
+                            <p class="flex items-baseline gap-1.5 text-white">
+                                <span class="text-3xl font-bold leading-none tabular-nums md:text-4xl">0{projects.length + 1}</span>
+                                <span class="text-sm text-[#9A9AA4]">{new Date().getFullYear()}</span>
+                            </p>
+                            <a
+                                href={WA.general}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                data-magnetic="0.3"
+                                class="inline-flex shrink-0 items-center gap-2 rounded-full bg-[#00FFC4] px-5 py-2.5 text-sm font-semibold text-[#0d0f19] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-8px_rgba(0,255,196,0.55)]"
+                            >
+                                <WhatsappIcon class="h-5 w-5 [&_path]:stroke-[#0d0f19]" />
+                                Cotizar
+                            </a>
+                        </div>
                     </div>
-                </a>
-            ))
-        }
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 </section>
+
+<style>
+    /* Carpeta estilo "documento con solapa": la captura llena la tarjeta y una
+       solapa esmerilada sube desde abajo. La solapa es UNA sola pieza (pestaña
+       incluida) recortada con clip-path desde motion.js, para que el vidrio sea
+       continuo y la unión pestaña-cuerpo sea una diagonal suave. */
+    .folder {
+        --flap: rgba(7, 8, 14, 0.82);
+        --tab-h: 2.75rem;
+    }
+    @media (min-width: 768px) {
+        .folder { --tab-h: 3rem; }
+    }
+    .folder-front {
+        overflow: hidden;
+        background: #0a0b12;
+    }
+    .folder-blur {
+        filter: blur(22px) saturate(120%) brightness(0.55);
+        transform: scale(1.08); /* evita el borde claro que deja el blur en la orilla */
+    }
+    .folder-tint {
+        background: linear-gradient(to bottom, rgba(7, 8, 14, 0.9), var(--flap) 40%);
+    }
+    /* en el cierre la solapa es translúcida: el vidrio del marco ya desenfoca lo de atrás */
+    .reel-cta .folder-front {
+        background: transparent;
+    }
+    .reel-cta .folder-tint {
+        background: linear-gradient(to bottom, rgba(7, 8, 14, 0.85), rgba(7, 8, 14, 0.72) 40%);
+    }
+    .reel-cta {
+        --flap: rgba(7, 8, 14, 0.86);
+    }
+    @media (min-width: 768px) {
+        .reel-stage {
+            perspective: 1600px;
+            perspective-origin: 50% 40%;
+            overflow: hidden;
+        }
+        /* Sin preserve-3d a propósito: con él las tarjetas son planos en un
+           mismo espacio y, al cruzarse, el navegador las corta y se asoman
+           esquinas de una a través de otra. Así cada tarjeta se proyecta por
+           separado y el orden lo fija z-index desde motion.js. */
+        .reel-track {
+            transform-style: flat;
+        }
+        .reel-panel {
+            /* motion.js escribe el transform; aquí solo el origen y la cara trasera */
+            transform-origin: 50% 50%;
+            backface-visibility: hidden;
+        }
+    }
+    .reel-hint-arrow { animation: hintDown 1.6s ease-in-out infinite; }
+    @keyframes hintDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+    /* Zoom lento en celular, donde no hay espiral */
+    @media (max-width: 767px) {
+        .reel-img { animation: kenburns 14s ease-in-out infinite alternate; }
+        @keyframes kenburns { from { transform: scale(1.08) translateY(0); } to { transform: scale(1.18) translateY(-3%); } }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .reel-img { animation: none; transform: none; }
+    }
+</style>

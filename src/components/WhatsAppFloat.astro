@@ -1,0 +1,19 @@
+---
+// Botón flotante de WhatsApp: siempre a la mano, sobre todo en celular.
+import WhatsappIcon from "./icons/WhatsappIcon.astro";
+import { WA } from "../lib/whatsapp";
+
+const { href = WA.general } = Astro.props;
+---
+
+<a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Escríbenos por WhatsApp"
+    data-magnetic="0.2"
+    class="group fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-[#25D366] py-3 pl-3 pr-3 text-white shadow-[0_12px_32px_-8px_rgba(37,211,102,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-8px_rgba(37,211,102,0.8)] md:pr-5"
+>
+    <WhatsappIcon class="h-6 w-6" />
+    <span class="hidden text-sm font-semibold md:inline">Cotiza por WhatsApp</span>
+</a>

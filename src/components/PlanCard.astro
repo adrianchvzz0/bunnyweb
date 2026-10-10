@@ -1,4 +1,6 @@
 ---
+import { WA } from "../lib/whatsapp";
+
 const {
     name,
     descriptor,
@@ -80,8 +82,9 @@ const {
 
     <div class="p-8 pt-0">
         <a
-            href="#contact"
-            onclick={`window.selectPlan && window.selectPlan('${quote}')`}
+            href={WA.plan(quote)}
+            target="_blank"
+            rel="noopener noreferrer"
             class:list={[
                 "block w-full rounded-full py-3.5 text-center text-sm font-semibold transition-all duration-300",
                 popular

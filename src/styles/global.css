@@ -4,3 +4,64 @@
 :where(#hero, #services, #proyectos, #plans, #about, #faq, #contact) {
     scroll-margin-top: 6rem;
 }
+
+/* ------------------------------------------------------------------
+   Tema por sección.
+   `motion.js` pone `data-theme="light"` en <html> cuando una sección
+   marcada con `data-theme-section="light"` ocupa la pantalla, y lo quita
+   al volver a una oscura. Las utilidades de color se remapean aquí para
+   no tocar cada componente; una rama con `.keep-dark` se queda oscura
+   (fotos con degradado y texto blanco encima).
+   Estas reglas van fuera de @layer para ganarles a las utilidades. */
+
+@layer base {
+    body,
+    svg path,
+    [class*="text-"],
+    [class*="bg-"],
+    [class*="border-"],
+    [class*="divide-"] > * {
+        transition-property: color, background-color, border-color, fill;
+        transition-duration: 0.7s;
+        transition-timing-function: ease;
+    }
+}
+
+html[data-theme="light"] {
+    --t-ink: #0d0f19;
+    --t-accent: #00805f;
+    body { background-color: #f3f4f7; }
+    .bg-glows { opacity: 0.6; }
+    .grain { opacity: 0.03; }
+
+    :is(.text-white, .fill-white):not(.keep-dark, .keep-dark *) { color: var(--t-ink); fill: var(--t-ink); }
+    .text-white\/70:not(.keep-dark, .keep-dark *) { color: rgb(13 15 25 / 0.7); }
+    .text-white\/\[0\.08\]:not(.keep-dark, .keep-dark *) { color: rgb(13 15 25 / 0.07); }
+    .text-\[\#D0D0D4\]:not(.keep-dark, .keep-dark *) { color: #2e2f3a; }
+    .text-\[\#C6C6CE\]:not(.keep-dark, .keep-dark *) { color: #3f404b; }
+    .text-\[\#B4B4BC\]:not(.keep-dark, .keep-dark *) { color: #4a4b56; }
+    .text-\[\#9A9AA4\]:not(.keep-dark, .keep-dark *) { color: #5a5b66; }
+    .text-\[\#8A8A94\]:not(.keep-dark, .keep-dark *) { color: #62636e; }
+    .text-\[\#7B7C85\]:not(.keep-dark, .keep-dark *) { color: #6b6c77; }
+    .placeholder\:text-\[\#7B7C85\]::placeholder { color: #8a8b95; }
+    /* el verde de marca no lee sobre claro en texto chico: va más profundo */
+    .text-\[\#00FFC4\]:not(.keep-dark, .keep-dark *, .bg-\[\#00FFC4\] *) { color: var(--t-accent); }
+    .hover\:text-\[\#00FFC4\]:hover:not(.keep-dark, .keep-dark *) { color: var(--t-accent); }
+
+    :is(.border-white\/10, .border-\[\#64656C\]\/40):not(.keep-dark, .keep-dark *) { border-color: rgb(13 15 25 / 0.1); }
+    :is(.border-white\/15, .border-white\/20, .border-\[\#64656C\]\/60):not(.keep-dark, .keep-dark *) { border-color: rgb(13 15 25 / 0.16); }
+    .border-\[\#64656C\]:not(.keep-dark, .keep-dark *) { border-color: rgb(13 15 25 / 0.25); }
+    .divide-white\/10:not(.keep-dark, .keep-dark *) > :not(:last-child) { border-color: rgb(13 15 25 / 0.1); }
+
+    /* superficies: las tarjetas pasan a blanco; los tintes sutiles a tinta */
+    :is(.bg-white\/\[0\.02\], .bg-white\/\[0\.03\], .bg-white\/\[0\.04\], .bg-white\/\[0\.05\], .bg-white\/5):not(.keep-dark, .keep-dark *) { background-color: rgb(255 255 255 / 0.8); }
+    :is(.bg-white\/\[0\.06\], .bg-white\/\[0\.07\], .bg-white\/10, .bg-white\/15):not(.keep-dark, .keep-dark *) { background-color: rgb(13 15 25 / 0.06); }
+    .hover\:bg-white\/5:hover:not(.keep-dark, .keep-dark *) { background-color: rgb(13 15 25 / 0.05); }
+    .focus\:bg-white\/\[0\.05\]:focus { background-color: #ffffff; }
+    .bg-\[\#0d0f19\]:not(.keep-dark, .keep-dark *) { background-color: #ffffff; }
+    .bg-\[\#0d0f19\]\/95 { background-color: rgb(255 255 255 / 0.95); }
+    #navbar.nav-scrolled {
+        background-color: rgb(255 255 255 / 0.55);
+        border-color: rgb(13 15 25 / 0.08);
+    }
+}

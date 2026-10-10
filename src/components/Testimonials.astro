@@ -1,0 +1,73 @@
+---
+/**
+ * Testimonios de clientes reales.
+ *
+ * Deja la lista vacía hasta tener testimonios verdaderos: la sección no se
+ * muestra mientras no haya ninguno. Cada entrada lleva nombre, negocio, texto y,
+ * si hay, foto en /images/testimonios/.
+ */
+interface Testimonial {
+    name: string;
+    business: string;
+    role?: string;
+    text: string;
+    photo?: string;
+    url?: string;
+}
+
+const testimonials: Testimonial[] = [
+    // {
+    //     name: "Nombre Apellido",
+    //     business: "PriorityDental",
+    //     role: "Directora",
+    //     text: "Desde que tenemos la página nos llegan citas sin tener que contestar el teléfono todo el día.",
+    //     photo: "/images/testimonios/nombre.webp",
+    //     url: "https://prioritydental.netlify.app",
+    // },
+];
+---
+
+{
+    testimonials.length > 0 && (
+        <section
+            id="testimonios"
+            aria-labelledby="testimonios-title"
+            class="w-full max-w-5xl mx-auto px-6 md:px-4 py-22 md:py-30"
+        >
+            <div class="text-center">
+                <h2 id="testimonios-title" data-split class="text-5xl font-semibold text-white">
+                    Lo que dicen nuestros clientes
+                </h2>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+                {testimonials.map((t) => (
+                    <figure
+                        data-reveal
+                        class="flex h-full flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.02] p-7"
+                    >
+                        <blockquote class="text-lg leading-relaxed text-[#D0D0D4]">“{t.text}”</blockquote>
+                        <figcaption class="mt-6 flex items-center gap-3">
+                            {t.photo && (
+                                <img src={t.photo} alt="" loading="lazy" class="h-11 w-11 rounded-full object-cover" />
+                            )}
+                            <div>
+                                <p class="font-semibold text-white">{t.name}</p>
+                                <p class="text-sm text-[#9A9AA4]">
+                                    {t.role ? `${t.role} · ` : ""}
+                                    {t.url ? (
+                                        <a href={t.url} target="_blank" rel="noopener noreferrer" class="hover:text-[#00FFC4]">
+                                            {t.business}
+                                        </a>
+                                    ) : (
+                                        t.business
+                                    )}
+                                </p>
+                            </div>
+                        </figcaption>
+                    </figure>
+                ))}
+            </div>
+        </section>
+    )
+}

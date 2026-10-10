@@ -1,0 +1,62 @@
+---
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+import SectorPage from "../components/SectorPage.astro";
+import { WA } from "../lib/whatsapp";
+---
+
+<Layout
+    title="Páginas web para ópticas en Monterrey | BunnyWeb"
+    description="Catálogo en línea de armazones con pedido por WhatsApp para tu óptica. Mira el sitio de muestra y pídelo con tus modelos."
+    path="/opticas/"
+    whatsapp={WA.opticas}
+>
+    <SectorPage
+        eyebrow="Ópticas"
+        title="Tu catálogo de armazones,"
+        accent="abierto las 24 horas."
+        intro="Tus clientes ven los modelos, eligen color y te escriben por WhatsApp con el armazón que quieren. Vendes antes de que pisen la tienda."
+        whatsapp={WA.opticas}
+        demoUrl="https://ocre64.netlify.app"
+        demoImg="/images/proyecto6.webp"
+        demoLabel="ocre64.netlify.app"
+        benefits={[
+            {
+                title: "Catálogo que vende solo",
+                text: "Cada armazón con sus colores, medidas y precio con y sin graduación. El cliente llega decidido.",
+            },
+            {
+                title: "Pedido en un toque",
+                text: "El botón de WhatsApp manda el modelo exacto que le interesa. Tú solo confirmas disponibilidad.",
+            },
+            {
+                title: "Se ve como marca",
+                text: "Fotografía de producto y diseño de boutique. Compites con las cadenas sin parecer una.",
+            },
+        ]}
+        includes={[
+            "Diseño a la medida con tu marca",
+            "Catálogo de 8 a 12 modelos con variantes de color",
+            "Ficha por modelo con medidas y precios",
+            "Pedido por WhatsApp con el modelo prellenado",
+            "Página de colección por tipo (acetato, titanio, sol)",
+            "Optimizada para celular y Google",
+        ]}
+        price="Desde $7,000"
+        priceNote="Pago único. En línea en 2 a 3 semanas. Agregar modelos después es sencillo."
+        faqs={[
+            {
+                q: "¿Y si tengo más de 12 modelos?",
+                a: "El catálogo crece sin problema. Arrancamos con los que más vendes y agregamos el resto por bloques.",
+            },
+            {
+                q: "¿Necesito fotos profesionales de los armazones?",
+                a: "Idealmente sí. Si no las tienes, te decimos cómo tomarlas con el celular sobre fondo blanco, o las generamos para la muestra.",
+            },
+            {
+                q: "¿Se puede vender con pago en línea?",
+                a: "Sí, eso ya es una tienda en línea. Muchas ópticas prefieren cerrar por WhatsApp porque la graduación se afina en sucursal; tú decides.",
+            },
+        ]}
+    />
+</Layout>
