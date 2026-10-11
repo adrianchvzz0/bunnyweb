@@ -7,6 +7,7 @@
  * WhatsApp con el contexto del rubro.
  */
 import WhatsappIcon from "./icons/WhatsappIcon.astro";
+import ArrowUpRightIcon from "./icons/ArrowUpRightIcon.astro";
 
 interface Faq {
     q: string;
@@ -74,9 +75,10 @@ const {
                 href={demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="rounded-full border border-[#64656C] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#00FFC4] hover:text-[#00FFC4]"
+                class="inline-flex items-center justify-center gap-2 rounded-full border border-[#64656C] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#00FFC4] hover:text-[#00FFC4]"
             >
-                Ver el sitio de muestra ↗
+                Ver el sitio de muestra
+                <ArrowUpRightIcon class="h-4 w-4" />
             </a>
         </div>
     </div>

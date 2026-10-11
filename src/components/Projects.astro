@@ -1,6 +1,7 @@
 ---
 import { WA } from "../lib/whatsapp";
 import WhatsappIcon from "./icons/WhatsappIcon.astro";
+import ArrowUpRightIcon from "./icons/ArrowUpRightIcon.astro";
 
 const years = { PriorityDental: "2025", Ticketito: "2025", Nova: "2026", Rumbo: "2026", "Sana Centro Médico": "2026", "Ocre 64": "2026", Umbral: "2026" };
 
@@ -96,12 +97,14 @@ const projects = [
                         <!-- Marco de la carpeta -->
                         <div class="folder-frame absolute inset-0 rounded-3xl border border-white/[0.14] bg-[#13151e]"></div>
                         <!-- La hoja: al enfocar sobresale por arriba, ligeramente inclinada -->
-                        <img
-                            src={project.img}
-                            alt={`Proyecto ${project.name} por BunnyWeb`}
-                            loading="lazy"
-                            class="reel-img absolute inset-1.5 h-[calc(100%-0.75rem)] w-[calc(100%-0.75rem)] origin-bottom rounded-[18px] object-cover object-top shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.7)] transition-[scale] duration-700 ease-out group-hover:scale-[1.03]"
-                        />
+                        <div class="reel-img absolute inset-1.5 origin-bottom overflow-hidden rounded-[18px] bg-[#0d0f19] shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.7)] transition-[scale] duration-700 ease-out group-hover:scale-[1.03]">
+                            <img
+                                src={project.img}
+                                alt={`Proyecto ${project.name} por BunnyWeb`}
+                                loading="lazy"
+                                class="reel-kb h-full w-full object-cover object-top"
+                            />
+                        </div>
                         <!-- Solapa frontal esmerilada con pestaña curva a la izquierda -->
                         <div class="folder-front absolute inset-x-0 bottom-0 h-[calc(54%+2.75rem)] md:h-[calc(54%+3rem)]">
                             <!-- Esmerilado "real": copia de la captura desenfocada, alineada con la de
@@ -125,7 +128,8 @@ const projects = [
                                         <span class="text-sm text-[#9A9AA4]">{years[project.name] ?? ""}</span>
                                     </p>
                                     <span class="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm text-white transition-all duration-300 group-hover:border-[#00FFC4]/50 group-hover:text-[#00FFC4]">
-                                        Ver proyecto ↗
+                                        Ver proyecto
+                                        <ArrowUpRightIcon class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                                     </span>
                                 </div>
                             </div>
@@ -228,10 +232,10 @@ const projects = [
     @keyframes hintDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
     /* Zoom lento en celular, donde no hay espiral */
     @media (max-width: 767px) {
-        .reel-img { animation: kenburns 14s ease-in-out infinite alternate; }
+        .reel-kb { animation: kenburns 14s ease-in-out infinite alternate; }
         @keyframes kenburns { from { transform: scale(1.08) translateY(0); } to { transform: scale(1.18) translateY(-3%); } }
     }
     @media (prefers-reduced-motion: reduce) {
-        .reel-img { animation: none; transform: none; }
+        .reel-kb { animation: none; transform: none; }
     }
 </style>

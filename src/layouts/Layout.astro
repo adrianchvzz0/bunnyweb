@@ -4,6 +4,7 @@ import Footer from "../components/Footer.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 // Supports weights 100-900
 import "@fontsource-variable/onest";
+import { SOCIAL } from "../lib/social";
 
 // Cada página puede traer su propio título, descripción, ruta y mensaje de WhatsApp.
 const {
@@ -26,10 +27,11 @@ const jsonLd = {
 	url: siteUrl,
 	image: ogImage,
 	logo: `${siteUrl}/favicon.png`,
-	email: "bunnyweb@gmail.com",
+	email: "hey.bunnyweb@gmail.com",
 	telephone: "+52-81-8709-7029",
 	priceRange: "$$",
 	areaServed: "Monterrey, Nuevo León, México",
+	sameAs: [SOCIAL.instagram.url, SOCIAL.facebook.url],
 	address: {
 		"@type": "PostalAddress",
 		addressLocality: "Monterrey",

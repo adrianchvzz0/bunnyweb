@@ -2,6 +2,9 @@
 import Logo from "./icons/Logo.astro";
 import EmailIcon from "./icons/EmailIcon.astro";
 import WhatsappIcon from "./icons/WhatsappIcon.astro";
+import InstagramIcon from "./icons/InstagramIcon.astro";
+import FacebookIcon from "./icons/FacebookIcon.astro";
+import { SOCIAL } from "../lib/social";
 
 const year = new Date().getFullYear();
 
@@ -56,11 +59,11 @@ const links = [
                 Contacto
             </h3>
             <a
-                href="mailto:bunnyweb@gmail.com"
+                href="mailto:hey.bunnyweb@gmail.com"
                 class="flex items-center gap-2 text-[#D0D0D4] text-sm hover:text-[#00FFC4] transition-colors duration-200 w-fit"
             >
                 <EmailIcon class="w-5 h-5" />
-                bunnyweb@gmail.com
+                hey.bunnyweb@gmail.com
             </a>
             <a
                 href="https://wa.me/528187097029"
@@ -70,6 +73,33 @@ const links = [
             >
                 <WhatsappIcon class="w-5 h-5" />
                 +52 81 8709 7029
+            </a>
+        </div>
+
+        <!-- Redes -->
+        <div class="flex flex-col gap-3">
+            <h3
+                class="text-xs font-medium uppercase tracking-[0.2em] text-[#00FFC4]"
+            >
+                Síguenos
+            </h3>
+            <a
+                href={SOCIAL.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-2 text-[#D0D0D4] text-sm hover:text-[#00FFC4] transition-colors duration-200 w-fit"
+            >
+                <InstagramIcon class="w-5 h-5" />
+                {SOCIAL.instagram.label}
+            </a>
+            <a
+                href={SOCIAL.facebook.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-2 text-[#D0D0D4] text-sm hover:text-[#00FFC4] transition-colors duration-200 w-fit"
+            >
+                <FacebookIcon class="w-5 h-5" />
+                {SOCIAL.facebook.label}
             </a>
         </div>
     </div>
