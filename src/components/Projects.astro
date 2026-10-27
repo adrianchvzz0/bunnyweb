@@ -3,38 +3,26 @@ import { WA } from "../lib/whatsapp";
 import WhatsappIcon from "./icons/WhatsappIcon.astro";
 import ArrowUpRightIcon from "./icons/ArrowUpRightIcon.astro";
 
-const years = { PriorityDental: "2025", Ticketito: "2025", Nova: "2026", Rumbo: "2026", "Sana Centro Médico": "2026", "Ocre 64": "2026", Umbral: "2026" };
+const years = { PriorityDental: "2025", Nova: "2026", Rumbo: "2026", "Sana Centro Médico": "2026", "Ocre 64": "2026", Umbral: "2026", DúoCam: "2026", "Bunny Bite": "2026" };
 
 const projects = [
     {
-        name: "PriorityDental",
-        tag: "Clínica dental",
-        url: "https://prioritydental.netlify.app",
-        img: "/images/proyecto1.webp",
+        name: "Bunny Bite",
+        tag: "Restaurantes · pedidos por QR",
+        url: "https://bunnybite.netlify.app",
+        img: "/images/proyecto9.webp",
     },
     {
-        name: "Ticketito",
-        tag: "Venta de boletos",
-        url: "https://ticketito.netlify.app",
-        img: "/images/proyecto2.webp",
+        name: "DúoCam",
+        tag: "Estudio de fotografía",
+        url: "https://duocam.com.mx",
+        img: "/images/proyecto8.webp",
     },
     {
-        name: "Nova",
-        tag: "Asistente de voz",
-        url: "https://hellonova.netlify.app",
-        img: "/images/proyecto3.webp",
-    },
-    {
-        name: "Rumbo",
-        tag: "Marketing",
-        url: "https://wearerumbo.com",
-        img: "/images/proyecto4.webp",
-    },
-    {
-        name: "Sana Centro Médico",
-        tag: "Clínica",
-        url: "https://sana-clinica-demo.netlify.app",
-        img: "/images/proyecto5.webp",
+        name: "Umbral",
+        tag: "Desarrolladora residencial",
+        url: "https://umbral-mty.netlify.app",
+        img: "/images/proyecto7.webp",
     },
     {
         name: "Ocre 64",
@@ -43,12 +31,32 @@ const projects = [
         img: "/images/proyecto6.webp",
     },
     {
-        name: "Umbral",
-        tag: "Desarrolladora residencial",
-        url: "https://umbral-mty.netlify.app",
-        img: "/images/proyecto7.webp",
+        name: "Sana Centro Médico",
+        tag: "Clínica",
+        url: "https://sana-clinica-demo.netlify.app",
+        img: "/images/proyecto5.webp",
+    },
+    {
+        name: "Rumbo",
+        tag: "Marketing",
+        url: "https://wearerumbo.com",
+        img: "/images/proyecto4.webp",
+    },
+    {
+        name: "Nova",
+        tag: "Asistente de voz",
+        url: "https://hellonova.netlify.app",
+        img: "/images/proyecto3.webp",
+    },
+    {
+        name: "PriorityDental",
+        tag: "Clínica dental",
+        url: "https://prioritydental.netlify.app",
+        img: "/images/proyecto1.webp",
     },
 ];
+const EN_LETRAS = ["", "Un", "Dos", "Tres", "Cuatro", "Cinco", "Seis", "Siete", "Ocho", "Nueve", "Diez", "Once", "Doce"];
+const cuantos = EN_LETRAS[projects.length] ?? String(projects.length);
 ---
 
 
@@ -64,7 +72,7 @@ const projects = [
     <!-- Celular: encabezado normal. El h2 lleva el id que nombra la sección. -->
     <div class="mx-auto w-full max-w-5xl px-6 pt-22 md:hidden">
         <h2 id="proyectos-title" data-split class="text-4xl font-semibold text-white">Proyectos</h2>
-        <p class="mt-2 text-lg text-[#9A9AA4]">Siete sitios en producción.</p>
+        <p class="mt-2 text-lg text-[#9A9AA4]">{cuantos} proyectos en producción.</p>
     </div>
 
     <!-- Escritorio: el título vive detrás de la espiral, enorme y tenue, y se queda
@@ -74,7 +82,7 @@ const projects = [
         <p class="flex items-center gap-3">
             <span class="reel-counter font-medium tabular-nums text-white">01</span>
             <span class="h-px w-28 overflow-hidden rounded bg-white/15"><span class="reel-progress block h-full w-full origin-left scale-x-0 bg-[#00FFC4]"></span></span>
-            <span class="tabular-nums">0{projects.length}</span>
+            <span class="tabular-nums">{String(projects.length).padStart(2, "0")}</span>
         </p>
         <p class="reel-hint flex items-center justify-center gap-2">
             Desplázate para recorrerlos
@@ -124,7 +132,7 @@ const projects = [
                                 </div>
                                 <div class="flex items-end justify-between gap-4">
                                     <p class="flex items-baseline gap-1.5 text-white">
-                                        <span class="text-3xl font-bold leading-none tabular-nums md:text-4xl">0{i + 1}</span>
+                                        <span class="text-3xl font-bold leading-none tabular-nums md:text-4xl">{String(i + 1).padStart(2, "0")}</span>
                                         <span class="text-sm text-[#9A9AA4]">{years[project.name] ?? ""}</span>
                                     </p>
                                     <span class="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm text-white transition-all duration-300 group-hover:border-[#00FFC4]/50 group-hover:text-[#00FFC4]">
@@ -154,7 +162,7 @@ const projects = [
                         </div>
                         <div class="flex items-end justify-between gap-4">
                             <p class="flex items-baseline gap-1.5 text-white">
-                                <span class="text-3xl font-bold leading-none tabular-nums md:text-4xl">0{projects.length + 1}</span>
+                                <span class="text-3xl font-bold leading-none tabular-nums md:text-4xl">{String(projects.length + 1).padStart(2, "0")}</span>
                                 <span class="text-sm text-[#9A9AA4]">{new Date().getFullYear()}</span>
                             </p>
                             <a

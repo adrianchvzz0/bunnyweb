@@ -12,11 +12,17 @@ const {
 	description = "En BunnyWeb creamos landing pages, tiendas en línea y sistemas a la medida: diseño moderno, rápido y pensado para vender.",
 	path = "/",
 	whatsapp,
+	/** Carátula al compartir (1200×630). Cada página puede traer la suya. */
+	image = "/og-image.png",
+	/** Tipo de página para Open Graph. */
+	type = "website",
+	/** Páginas que no deben indexarse (404, borradores). */
+	noindex = false,
 } = Astro.props;
 // 👉 Actualiza esta URL si migras a un dominio propio
 const siteUrl = "https://bunnywebstore.netlify.app";
 const pageUrl = `${siteUrl}${path}`;
-const ogImage = `${siteUrl}/og-image.png`;
+const ogImage = `${siteUrl}${image}`;
 
 // Datos estructurados (JSON-LD) para SEO local
 const jsonLd = {
@@ -58,7 +64,10 @@ const jsonLd = {
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<link rel="canonical" href={pageUrl} />
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="description" content={description} />
+		<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
+		<meta name="author" content="BunnyWeb" />
 		<meta
 			name="keywords"
 			content="BunnyWeb, desarrollo web, diseño web, landing page, e-commerce, Monterrey"
@@ -66,11 +75,17 @@ const jsonLd = {
 		<meta name="theme-color" content="#0d0f19" />
 
 		<!-- Open Graph -->
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={type} />
+		<meta property="og:site_name" content="BunnyWeb" />
 		<meta property="og:url" content={pageUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:secure_url" content={ogImage} />
+		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={title} />
 		<meta property="og:locale" content="es_MX" />
 
 		<!-- Twitter -->
@@ -78,6 +93,7 @@ const jsonLd = {
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImage} />
+		<meta name="twitter:image:alt" content={title} />
 
 		<!-- Datos estructurados -->
 		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
