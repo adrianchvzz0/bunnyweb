@@ -1,11 +1,13 @@
 ---
 import PlanCard from "./PlanCard.astro";
+import { WA } from "../lib/whatsapp";
 
 const landingPlans = [
     {
         name: "Landing Básica",
         descriptor: "Ideal para presentar tu negocio.",
-        price: "$2,999",
+        price: "$5,000",
+        from: true,
         popular: false,
         quote: "Landing Básica",
         features: [
@@ -19,7 +21,8 @@ const landingPlans = [
     {
         name: "Landing Premium",
         descriptor: "Para campañas y presencia completa.",
-        price: "$6,000",
+        price: "$10,000",
+        from: true,
         popular: true,
         quote: "Landing Premium",
         features: [
@@ -51,7 +54,8 @@ const ecommercePlans = [
     {
         name: "Tienda Básica",
         descriptor: "Empieza a vender en línea.",
-        price: "$7,000",
+        price: "$18,000",
+        from: true,
         popular: false,
         quote: "Tienda Básica",
         features: [
@@ -65,7 +69,8 @@ const ecommercePlans = [
     {
         name: "Tienda Premium",
         descriptor: "Tienda completa, sin límites.",
-        price: "$12,000",
+        price: "$28,000",
+        from: true,
         popular: true,
         quote: "Tienda Premium",
         features: [
@@ -171,9 +176,42 @@ const ecommercePlans = [
             </button>
         </div>
 
-        <p class="text-sm text-[#8A8A94]">
-            Todos incluyen diseño a la medida y cotización gratis.
+        <p class="max-w-xl text-center text-sm text-[#8A8A94]">
+            Todos incluyen diseño a la medida y cotización gratis. Los precios son
+            "desde": crecen con el alcance. No incluyen textos, fotografías, dominio ni
+            hosting del primer año; te decimos cómo conseguirlos.
         </p>
+    </div>
+
+    <!-- Mantenimiento mensual: el ingreso recurrente, en una sola franja -->
+    <div
+        data-reveal
+        class="relative z-10 mx-auto mt-10 flex max-w-4xl flex-col gap-6 rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-7 backdrop-blur-[10px] md:flex-row md:items-center md:justify-between md:p-8"
+    >
+        <div class="max-w-md">
+            <p class="text-sm text-[#B4B4BC]">Mantenimiento mensual</p>
+            <p class="mt-2 flex items-baseline gap-2">
+                <span class="text-3xl font-semibold tracking-tight text-white">$1,200</span>
+                <span class="text-base text-[#8A8A94]">/ mes</span>
+            </p>
+            <p class="mt-2 text-sm text-[#B4B4BC]">
+                Tu sitio siempre en línea y al día, sin que tengas que pensar en él.
+            </p>
+        </div>
+        <ul class="grid gap-2 text-sm text-[#B4B4BC] sm:grid-cols-2 md:max-w-xs">
+            <li class="flex items-center gap-2"><span class="text-[#00FFC4]">✓</span> Hospedaje y dominio conectados</li>
+            <li class="flex items-center gap-2"><span class="text-[#00FFC4]">✓</span> Cambios menores de contenido</li>
+            <li class="flex items-center gap-2"><span class="text-[#00FFC4]">✓</span> Respaldos y actualizaciones</li>
+            <li class="flex items-center gap-2"><span class="text-[#00FFC4]">✓</span> Soporte por WhatsApp</li>
+        </ul>
+        <a
+            href={WA.plan("Mantenimiento mensual")}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="shrink-0 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 text-center text-sm font-semibold text-white transition-all duration-300 hover:border-[#00FFC4]/50 hover:text-[#00FFC4]"
+        >
+            Agregar a mi plan
+        </a>
     </div>
 </section>
 

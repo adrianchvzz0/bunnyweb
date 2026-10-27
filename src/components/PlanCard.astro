@@ -8,6 +8,7 @@ const {
     popular = false,
     features = [],
     quote,
+    from = false,
 } = Astro.props;
 ---
 
@@ -46,6 +47,7 @@ const {
         <p class="text-sm text-[#B4B4BC]">{name}</p>
 
         <p class="mt-4 flex items-baseline gap-2">
+            {from && <span class="text-sm text-[#8A8A94]">desde</span>}
             <span class="text-4xl font-semibold tracking-tight text-white md:text-[2.6rem]"
                 >{price}</span
             >
